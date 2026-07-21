@@ -1,0 +1,24 @@
+[
+  {
+    "slug": "wesley-santos",
+    "name": "Wesley Santos",
+    "pieces": [
+      {
+        "slug": "o-seu-amor-por-mim",
+        "title": "O seu amor por mim",
+        "youtubeUrl": "https://youtu.be/7UI8K9U6_Vw"
+      }
+    ]
+  },
+  {
+    "slug": "o-canto-das-igrejas",
+    "name": "O canto das igrejas",
+    "pieces": [
+      {
+        "slug": "todos-os-dias",
+        "title": "Todos os dias",
+        "youtubeUrl": "https://youtu.be/DH58tiF8Idw"
+      }
+    ]
+  }
+]
