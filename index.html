@@ -1,46 +1,234 @@
 <!DOCTYPE html>
-<html lang="en" class="h-full">
+<html lang="en" class="dark h-full">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>WorCheat Sheet</title>
-  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&family=Montserrat:wght@700;800;900&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=block" rel="stylesheet">
+  <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+  <script id="tailwind-config">
+    try {
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            colors: {
+              "surface-bright": "#3a3939",
+              "surface-container-lowest": "#0e0e0e",
+              "surface-card": "#121212",
+              "on-secondary-fixed": "#001f25",
+              "on-background": "#e5e2e1",
+              "on-primary": "#520071",
+              "surface-dim": "#131313",
+              "ncs-pink": "#FD80B6",
+              "outline": "#9d8ba0",
+              "on-primary-container": "#ffffff",
+              "surface-glass": "rgba(25, 29, 36, 0.7)",
+              "inverse-surface": "#e5e2e1",
+              "surface-tint": "#ecb2ff",
+              "on-primary-fixed-variant": "#74009f",
+              "primary-fixed": "#f8d8ff",
+              "on-error": "#690005",
+              "inverse-primary": "#9900cf",
+              "secondary-fixed": "#a5eeff",
+              "secondary-fixed-dim": "#00daf8",
+              "on-secondary": "#00363f",
+              "on-secondary-fixed-variant": "#004e5a",
+              "on-secondary-container": "#005f6d",
+              "on-surface-variant": "#d4c0d7",
+              "tertiary": "#ffb961",
+              "surface-variant": "#353534",
+              "secondary-container": "#00e0ff",
+              "tertiary-container": "#a66800",
+              "outline-variant": "#514255",
+              "surface-container-low": "#1c1b1b",
+              "surface-container-highest": "#353534",
+              "on-tertiary-fixed-variant": "#663e00",
+              "ncs-yellow": "#FFF605",
+              "tertiary-fixed-dim": "#ffb961",
+              "on-error-container": "#ffdad6",
+              "error-container": "#93000a",
+              "on-surface": "#e5e2e1",
+              "surface-container": "#201f1f",
+              "on-tertiary-fixed": "#2b1700",
+              "on-tertiary": "#472a00",
+              "primary-fixed-dim": "#ecb2ff",
+              "surface-container-high": "#2a2a2a",
+              "primary": "#ecb2ff",
+              "surface": "#131313",
+              "background": "#131313",
+              "secondary": "#b9f1ff",
+              "primary-container": "#bd00ff",
+              "error": "#ffb4ab",
+              "inverse-on-surface": "#313030",
+              "on-tertiary-container": "#fffeff",
+              "tertiary-fixed": "#ffddb9",
+              "on-primary-fixed": "#320047"
+            },
+            borderRadius: {
+              DEFAULT: "0.25rem",
+              lg: "0.5rem",
+              xl: "0.75rem",
+              full: "9999px"
+            },
+            spacing: {
+              gutter: "24px",
+              base: "8px",
+              "stack-md": "24px",
+              "margin-mobile": "16px",
+              "container-max": "1440px",
+              "stack-lg": "48px",
+              "margin-desktop": "64px",
+              "stack-sm": "12px"
+            },
+            fontFamily: {
+              "label-caps": ["Montserrat"],
+              "body-lg": ["Inter"],
+              "headline-md": ["Montserrat"],
+              "display-hero-mobile": ["Montserrat"],
+              "track-title": ["Inter"],
+              "body-md": ["Inter"],
+              "display-hero": ["Montserrat"],
+              "headline-lg": ["Montserrat"]
+            },
+            fontSize: {
+              "label-caps": ["12px", { lineHeight: "16px", letterSpacing: "0.1em", fontWeight: "800" }],
+              "body-lg": ["18px", { lineHeight: "28px", fontWeight: "400" }],
+              "headline-md": ["24px", { lineHeight: "32px", fontWeight: "700" }],
+              "display-hero-mobile": ["48px", { lineHeight: "52px", letterSpacing: "-0.02em", fontWeight: "900" }],
+              "track-title": ["16px", { lineHeight: "20px", fontWeight: "600" }],
+              "body-md": ["16px", { lineHeight: "24px", fontWeight: "400" }],
+              "display-hero": ["84px", { lineHeight: "90px", letterSpacing: "-0.04em", fontWeight: "900" }],
+              "headline-lg": ["32px", { lineHeight: "40px", fontWeight: "700" }]
+            }
+          }
+        }
+      }
+    } catch (_e) {}
+  </script>
+  <style>
+    .no-scrollbar::-webkit-scrollbar { display: none; }
+    .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+  </style>
   <script src="app.js" defer></script>
 </head>
-<body class="bg-gray-950 text-gray-200 font-sans antialiased h-full">
-<div id="app" class="flex flex-col h-full">
-  <header class="h-14 flex items-center px-5 bg-gray-900 border-b border-gray-700 shrink-0">
-    <h1 class="text-lg font-semibold text-green-500 tracking-tight">WorCheat Sheet</h1>
-  </header>
+<body class="bg-background text-on-surface font-body-md antialiased selection:bg-primary-container selection:text-on-primary-container flex overflow-hidden h-screen">
+  <!-- Sidebar (Desktop) -->
+  <aside class="bg-surface-container-lowest hidden lg:flex flex-col h-screen w-64 shrink-0 p-6 space-y-8 z-40 relative">
+    <div class="flex items-center gap-3 mb-4">
+      <span class="font-headline-lg text-headline-lg font-black text-primary tracking-tighter">WorCheat Sheet</span>
+    </div>
+    <nav class="flex-1 flex flex-col space-y-2">
+      <a href="#/" class="flex items-center gap-4 px-4 py-3 text-primary font-bold bg-primary/10 rounded-lg transition-all">
+        <span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">home</span>
+        <span>Home</span>
+      </a>
+      <a href="#/artists" class="flex items-center gap-4 px-4 py-3 text-on-surface-variant hover:bg-surface-container-high transition-all rounded-lg">
+        <span class="material-symbols-outlined">person_search</span>
+        <span>Artists</span>
+      </a>
+      <a class="flex items-center gap-4 px-4 py-3 text-on-surface-variant hover:bg-surface-container-high transition-all rounded-lg pointer-events-none opacity-50">
+        <span class="material-symbols-outlined">bolt</span>
+        <span>Trending</span>
+      </a>
+    </nav>
+    <div class="mt-auto">
+      <nav class="flex flex-col space-y-2">
+        <a class="flex items-center gap-4 px-4 py-2 text-on-surface-variant hover:bg-surface-container-high transition-all rounded-lg text-sm pointer-events-none opacity-50">
+          <span class="material-symbols-outlined text-lg">help</span>
+          <span>Help</span>
+        </a>
+        <a class="flex items-center gap-4 px-4 py-2 text-on-surface-variant hover:bg-surface-container-high transition-all rounded-lg text-sm pointer-events-none opacity-50">
+          <span class="material-symbols-outlined text-lg">settings</span>
+          <span>Settings</span>
+        </a>
+      </nav>
+    </div>
+  </aside>
 
-  <div class="flex flex-1 overflow-hidden">
-    <aside class="w-64 bg-gray-900 border-r border-gray-700 flex flex-col shrink-0 overflow-hidden" id="sidebar">
-      <div class="px-5 py-4 text-xs font-semibold uppercase tracking-widest text-gray-400 border-b border-gray-700 flex items-center gap-2">
-        <button id="backBtn" class="hidden items-center justify-center p-1 rounded hover:bg-gray-800 text-gray-200" title="Back to artists">&larr;</button>
-        <span id="sidebarTitle">Artists</span>
+  <!-- Main Content Area -->
+  <main class="flex-1 flex flex-col h-screen overflow-y-auto relative">
+    <!-- TopNavBar -->
+    <header class="bg-surface-glass backdrop-blur-md sticky top-0 z-50 border-b border-white/10 flex justify-between items-center w-full px-margin-mobile md:px-margin-desktop py-4">
+      <div class="lg:hidden">
+        <span class="font-display-hero-mobile text-display-hero-mobile font-black text-primary tracking-tighter">WorCheat Sheet</span>
       </div>
-      <div class="flex-1 overflow-y-auto py-2" id="sidebarList"></div>
-    </aside>
-
-    <main class="flex-1 overflow-y-auto px-10 py-8 flex flex-col items-center" id="main">
-      <div class="text-center mt-20" id="welcome">
-        <h2 class="text-3xl font-semibold mb-2 text-gray-100">Your music scores</h2>
-        <p class="text-gray-400 text-base">Select an artist from the sidebar to browse their pieces.</p>
+      <div class="flex items-center gap-4 md:gap-6 ml-auto">
+        <button class="text-on-surface-variant hover:text-primary transition-colors pointer-events-none opacity-50">
+          <span class="material-symbols-outlined">search</span>
+        </button>
+        <button class="text-on-surface-variant hover:text-primary transition-colors pointer-events-none opacity-50">
+          <span class="material-symbols-outlined">settings</span>
+        </button>
       </div>
+    </header>
 
-      <div class="w-full max-w-3xl hidden" id="scoreView">
-        <div class="text-center mb-5">
-          <h2 class="text-2xl font-semibold text-gray-100" id="scoreTitle"></h2>
-          <p class="text-gray-400 text-sm mt-1" id="scoreArtist"></p>
+    <!-- Route Views -->
+    <div id="main-content" class="flex-1">
+    </div>
+
+    <!-- Footer -->
+    <footer class="bg-surface-container-lowest border-t border-white/5 pt-stack-lg pb-stack-md px-margin-mobile md:px-margin-desktop">
+      <div class="max-w-[1600px] mx-auto">
+        <div class="grid grid-cols-1 md:grid-cols-12 gap-stack-md mb-stack-lg">
+          <div class="md:col-span-5">
+            <span class="font-display-hero text-5xl md:text-6xl font-black text-primary tracking-tighter mb-6 block">WorCheat Sheet</span>
+            <p class="text-on-surface-variant text-body-md max-w-sm mb-6">
+              Chord sheets &amp; scores, rendered via LilyPond.
+            </p>
+          </div>
+          <div class="md:col-span-7 grid grid-cols-2 md:grid-cols-3 gap-8">
+            <div class="flex flex-col gap-4">
+              <h4 class="font-label-caps text-label-caps text-primary uppercase tracking-widest">Browse</h4>
+              <nav class="flex flex-col gap-2">
+                <a href="#/" class="text-on-surface-variant hover:text-on-surface transition-colors">Home</a>
+                <a href="#/artists" class="text-on-surface-variant hover:text-on-surface transition-colors">Artists</a>
+              </nav>
+            </div>
+            <div class="flex flex-col gap-4">
+              <h4 class="font-label-caps text-label-caps text-primary uppercase tracking-widest">About</h4>
+              <nav class="flex flex-col gap-2">
+                <a class="text-on-surface-variant hover:text-on-surface transition-colors pointer-events-none opacity-50">LilyPond</a>
+                <a class="text-on-surface-variant hover:text-on-surface transition-colors pointer-events-none opacity-50">Hacklily</a>
+              </nav>
+            </div>
+            <div class="flex flex-col gap-4">
+              <h4 class="font-label-caps text-label-caps text-primary uppercase tracking-widest">Legal</h4>
+              <nav class="flex flex-col gap-2">
+                <a class="text-on-surface-variant hover:text-on-surface transition-colors pointer-events-none opacity-50">Privacy</a>
+                <a class="text-on-surface-variant hover:text-on-surface transition-colors pointer-events-none opacity-50">Terms</a>
+              </nav>
+            </div>
+          </div>
         </div>
-        <div id="scoreContent"></div>
+        <div class="pt-8 border-t border-white/5 flex flex-col md:flex-row justify-between items-center gap-4">
+          <p class="text-xs text-on-surface-variant">Powered by LilyPond &amp; Hacklily</p>
+        </div>
       </div>
-    </main>
-  </div>
+    </footer>
+  </main>
 
-  <footer class="h-10 flex items-center justify-center text-xs text-gray-400 border-t border-gray-700 shrink-0">
-    WorCheat Sheet &mdash; powered by LilyPond &amp; Hacklily
-  </footer>
-</div>
+  <!-- BottomNavBar (Mobile) -->
+  <nav class="bg-surface-glass backdrop-blur-xl lg:hidden fixed bottom-0 left-0 w-full flex justify-around items-center py-3 px-4 z-50 border-t border-white/5">
+    <a href="#/" class="flex flex-col items-center justify-center text-primary">
+      <span class="material-symbols-outlined mb-1" style="font-variation-settings: 'FILL' 1;">home</span>
+      <span class="text-[10px]">Home</span>
+    </a>
+    <a class="flex flex-col items-center justify-center text-on-surface-variant transition-colors pointer-events-none opacity-50">
+      <span class="material-symbols-outlined mb-1">search</span>
+      <span class="text-[10px]">Search</span>
+    </a>
+    <a href="#/artists" class="flex flex-col items-center justify-center text-on-surface-variant transition-colors">
+      <span class="material-symbols-outlined mb-1">person_search</span>
+      <span class="text-[10px]">Artists</span>
+    </a>
+    <a class="flex flex-col items-center justify-center text-on-surface-variant transition-colors pointer-events-none opacity-50">
+      <span class="material-symbols-outlined mb-1">settings</span>
+      <span class="text-[10px]">Settings</span>
+    </a>
+  </nav>
 </body>
 </html>
