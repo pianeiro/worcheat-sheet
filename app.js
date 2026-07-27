@@ -552,6 +552,7 @@
         badgeClass: 'bg-primary',
         heroHeight: 'h-[250px] md:h-[320px]',
         hideCta: true,
+        bgImage: getYoutubeChannelAvatarUrl(artist.youtubeChannelUrl),
       }),
       '<div class="flex flex-col gap-stack-md px-margin-mobile md:px-margin-desktop pb-stack-lg max-w-[1600px] mx-auto w-full">',
       '<div class="bg-surface-card rounded-2xl p-6 md:p-8 border border-white/5 shadow-lg">',
