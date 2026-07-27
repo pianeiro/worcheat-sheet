@@ -21,7 +21,7 @@ The full set of artists and their pieces displayed on the home screen.
 _Avoid_: Library, catalog, playlist
 
 **View Score**:
-The primary CTA on a piece detail page — navigates to the score render view.
+The primary CTA on a piece detail page — triggers the Hacklily WebSocket render of the score SVG inline.
 _Avoid_: Play, listen, stream
 
 **Render**:

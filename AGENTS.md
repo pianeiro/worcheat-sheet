@@ -40,7 +40,7 @@ Slugs are lowercase-hyphenated.
 - `.ly` files: LilyPond source with chord names + melody. Keys, time sigs, paper size set per-file.
 - SVG output renders inside a white `<div>` — no per-page CSS needed.
 - No audio playback. Pieces with `youtubeUrl` show "Watch on YouTube" in Credits.
-- No project images — hero backgrounds use solid gradients, not photos.
+- No project images stored in repo — hero backgrounds use solid gradients or YouTube video thumbnails.
 - Glassmorphism (`backdrop-filter: blur()`) requires Chrome 76+, Firefox 103+, Safari 14+.
 - Inactive (visual placeholder only): Trending, Help, Settings, Share, Search.
 - Lightweight tags used for versioning (e.g., `v0.1.0`, `v0.2.0`). No annotated tags.
