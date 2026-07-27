@@ -6,6 +6,7 @@ Static SPA that renders LilyPond scores via Hacklily WebSocket. No build, no bun
 
 ```bash
 python3 -m http.server 8000   # fetch() requires HTTP, not file://
+node --check app.js            # syntax check (only verification gate)
 ```
 
 ## Routes
@@ -28,6 +29,7 @@ Slugs are lowercase-hyphenated.
 
 - **Layout shell** (`index.html`): sidebar (desktop), top nav, sticky footer, bottom nav (mobile) — hardcoded. Only `<main>` is swapped by JS.
 - **`app.js`**: IIFE, no exports. Component factories are pure functions returning HTML strings. Routes (in `handleRoute()`) assign `innerHTML` then attach event listeners.
+- **Hero section**: Uses `flex flex-col justify-end` with `relative` content wrapper (not `absolute inset-0` + `overflow-hidden`) so long titles expand the section instead of clipping.
 - **Lazy score render**: "View Score" button (`#piece-hero-cta`) calls `renderScore()` on click — no auto-render.
 - **Hacklily WebSocket**: `wss://render.hacklily.org/rpc` — must be reachable. Timeout 25s (hardcoded). Scores compile `.ly` → SVG.
 - **Design system**: Tailwind config inline in `index.html` (`#tailwind-config`). Key color tokens: `primary: #ecb2ff`, `primary-container: #bd00ff`, `surface: #131313`, `surface-card: #121212`.
@@ -41,6 +43,7 @@ Slugs are lowercase-hyphenated.
 - No project images — hero backgrounds use solid gradients, not photos.
 - Glassmorphism (`backdrop-filter: blur()`) requires Chrome 76+, Firefox 103+, Safari 14+.
 - Inactive (visual placeholder only): Trending, Help, Settings, Share, Search.
+- Lightweight tags used for versioning (e.g., `v0.1.0`, `v0.2.0`). No annotated tags.
 
 ## Workflow
 
