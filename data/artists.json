@@ -12,12 +12,67 @@
   },
   {
     "slug": "o-canto-das-igrejas",
-    "name": "O canto das igrejas",
+    "name": "O Canto das Igrejas",
     "pieces": [
       {
         "slug": "todos-os-dias",
         "title": "Todos os dias",
         "youtubeUrl": "https://youtu.be/DH58tiF8Idw"
+      }
+    ]
+  },
+  {
+    "slug": "fernanda-ferro",
+    "name": "Fernanda Ferro",
+    "pieces": [
+      {
+        "slug": "digno-de-tudo",
+        "title": "Digno de Tudo",
+        "youtubeUrl": "https://youtu.be/N1fVZ-2qtzQ"
+      }
+    ]
+  },
+  {
+    "slug": "bras-adoracao",
+    "name": "Brás Adoração",
+    "pieces": [
+      {
+        "slug": "vem-cantar-louvores",
+        "title": "Vem cantar louvores",
+        "youtubeUrl": "https://youtu.be/h4YWqwLlBv4"
+      }
+    ]
+  },
+  {
+    "slug": "templo-soul",
+    "name": "Templo Soul",
+    "pieces": [
+      {
+        "slug": "teu-amor-nao-falha",
+        "title": "Teu amor não falha",
+        "youtubeUrl": "https://youtu.be/Npsfmz5PrvA"
+      }
+    ]
+  },
+  {
+    "slug": "aline-barros",
+    "name": "Aline Barros",
+    "pieces": [
+      {
+        "slug": "nao-ha-deus-maior",
+        "title": "Não há Deus maior",
+        "youtubeUrl": "https://youtu.be/ubm9GK8jf84?si=-wTrliINom4ZI-x8"
+      }
+    ]
+  },
+  {
+    "slug": "louvor-ibab",
+    "name": "Louvor IBAB",
+    "pieces": [
+      {
+        "slug": "esse-e-o-dia-que-o-senhor-fez",
+        "title": "Esse é o dia que o Senhor fez",
+        "youtubeUrl": "https://youtu.be/ZLbnBZBkyj8&list=RDZLbnBZBkyj8"
       }
     ]
   }
