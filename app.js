@@ -193,10 +193,12 @@
 
     return [
       '<div class="px-margin-mobile md:px-margin-desktop pt-8 pb-4 max-w-[1600px] mx-auto w-full">',
-      '<section class="relative w-full ' + heroHeight + ' flex-shrink-0 rounded-2xl overflow-hidden shadow-2xl border border-white/10">',
+      '<section class="relative w-full ' + heroHeight + ' flex flex-col justify-end flex-shrink-0 rounded-2xl overflow-hidden shadow-2xl border border-white/10">',
+      '<div class="absolute inset-0 overflow-hidden rounded-2xl">',
       '<div class="absolute inset-0 bg-gradient-to-br ' + gradientFrom + ' ' + gradientVia + ' ' + gradientTo + '"></div>',
       '<div class="absolute inset-0 bg-gradient-to-t from-black/90 via-black/40 to-transparent"></div>',
-      '<div class="absolute inset-0 flex flex-col justify-end px-8 md:px-12 pb-8 md:pb-12 z-10">',
+      '</div>',
+      '<div class="relative z-10 px-8 md:px-12 pt-8 md:pt-12 pb-8 md:pb-12">',
       '<div class="max-w-4xl">',
       '<div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-surface-glass border border-white/10 mb-4">',
       '<span class="w-2 h-2 rounded-full ' + badgeClass + ' animate-pulse"></span>',
@@ -445,7 +447,7 @@
       });
     }).join('\n');
 
-    var artistCards = artists.map(function (a, i) {
+    var artistCards = artists.slice(0, 4).map(function (a, i) {
       var g = i % 2 === 0 ? 'from-primary/40 to-ncs-pink/20' : 'from-ncs-pink/40 to-primary/20';
       return ArtistCard({
         name: a.name,
@@ -590,7 +592,7 @@
         gradientVia: 'via-primary/20',
         gradientTo: 'to-ncs-pink/10',
         badgeClass: 'bg-primary',
-        heroHeight: 'h-[250px] md:h-[320px]',
+        heroHeight: 'min-h-[250px] md:min-h-[320px] h-auto',
       }),
       '<div class="flex flex-col gap-stack-md px-margin-mobile md:px-margin-desktop pb-stack-lg max-w-[1600px] mx-auto w-full">',
       ScoreFrame(),
