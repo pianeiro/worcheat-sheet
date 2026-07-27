@@ -26,6 +26,12 @@
     return 'musics/' + artistSlug + '/' + pieceSlug + '.ly';
   }
 
+  function getYoutubeThumbnailUrl(youtubeUrl) {
+    if (!youtubeUrl) return null;
+    var match = youtubeUrl.match(/(?:youtu\.be\/|v=)([a-zA-Z0-9_-]{11})/);
+    return match ? 'https://img.youtube.com/vi/' + match[1] + '/maxresdefault.jpg' : null;
+  }
+
   // ---- Component Factories ----
 
   function Sidebar(props) {
@@ -174,6 +180,7 @@
     var extraContent = props.extraContent || '';
     var ctaId = props.ctaId || '';
     var heroHeight = props.heroHeight || 'h-[300px] md:h-[400px]';
+    var bgImage = props.bgImage || '';
 
     var ctaHtml = '';
     if (!hideCta) {
@@ -195,6 +202,7 @@
       '<div class="px-margin-mobile md:px-margin-desktop pt-8 pb-4 max-w-[1600px] mx-auto w-full">',
       '<section class="relative w-full ' + heroHeight + ' flex flex-col justify-end flex-shrink-0 rounded-2xl overflow-hidden shadow-2xl border border-white/10">',
       '<div class="absolute inset-0 overflow-hidden rounded-2xl">',
+      bgImage ? '<img class="absolute inset-0 w-full h-full object-cover" src="' + bgImage + '" alt="">' : '',
       '<div class="absolute inset-0 bg-gradient-to-br ' + gradientFrom + ' ' + gradientVia + ' ' + gradientTo + '"></div>',
       '<div class="absolute inset-0 bg-gradient-to-t from-black/90 via-black/40 to-transparent"></div>',
       '</div>',
@@ -221,12 +229,13 @@
     var gradientFrom = props.gradientFrom || 'from-primary/30';
     var gradientVia = props.gradientVia || 'via-surface';
     var gradientTo = props.gradientTo || 'to-ncs-pink/20';
+    var thumbnailUrl = props.thumbnailUrl || '';
 
     return [
       '<div class="flex-shrink-0 w-64 md:w-72 group cursor-pointer">',
       '<a href="' + href + '">',
       '<div class="relative aspect-square mb-4 overflow-hidden rounded-xl border border-white/10 group-hover:border-primary/50 transition-colors">',
-      '<div class="w-full h-full bg-gradient-to-br ' + gradientFrom + ' ' + gradientVia + ' ' + gradientTo + '"></div>',
+      '<div class="w-full h-full bg-gradient-to-br ' + gradientFrom + ' ' + gradientVia + ' ' + gradientTo + '">' + (thumbnailUrl ? '<img class="w-full h-full object-cover" src="' + thumbnailUrl + '" alt="">' : '') + '</div>',
       '<div class="absolute inset-0 bg-black/50 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">',
       '<span class="material-symbols-outlined text-primary text-6xl shadow-black drop-shadow-lg transform scale-90 group-hover:scale-100 transition-transform duration-300" style="font-variation-settings: \'FILL\' 1;">visibility</span>',
       '</div>',
@@ -264,11 +273,12 @@
     var href = props.href || '#';
     var gradientFrom = props.gradientFrom || 'from-primary/30';
     var gradientTo = props.gradientTo || 'to-ncs-pink/20';
+    var thumbnailUrl = props.thumbnailUrl || '';
 
     return [
       '<div class="flex items-center gap-4 px-4 py-3 rounded-xl hover:bg-surface-container transition-colors group">',
       '<span class="text-on-surface-variant text-sm w-6 text-right shrink-0">' + index + '</span>',
-      '<div class="w-12 h-12 rounded-lg bg-gradient-to-br ' + gradientFrom + ' ' + gradientTo + ' shrink-0 overflow-hidden"></div>',
+      '<div class="w-12 h-12 rounded-lg bg-gradient-to-br ' + gradientFrom + ' ' + gradientTo + ' shrink-0 overflow-hidden">' + (thumbnailUrl ? '<img class="w-full h-full object-cover" src="' + thumbnailUrl + '" alt="">' : '') + '</div>',
       '<div class="flex-1 min-w-0">',
       '<p class="font-track-title text-track-title text-on-surface truncate group-hover:text-primary transition-colors">' + title + '</p>',
       '<p class="text-sm text-on-surface-variant truncate">' + artist + '</p>',
@@ -425,6 +435,7 @@
           subtitle: featuredPiece.artist.name,
           ctaHref: '#/' + featuredPiece.artist.slug + '/' + featuredPiece.piece.slug,
           ctaLabel: 'View Score',
+          bgImage: getYoutubeThumbnailUrl(featuredPiece.piece.youtubeUrl),
         })
       : HeroSection({
           label: 'Featured Score',
@@ -441,6 +452,7 @@
         title: item.piece.title,
         artist: item.artist.name,
         href: '#/' + item.artist.slug + '/' + item.piece.slug,
+        thumbnailUrl: getYoutubeThumbnailUrl(item.piece.youtubeUrl),
         gradientFrom: g.split(' ')[0],
         gradientVia: g.split(' ')[1],
         gradientTo: g.split(' ')[2],
@@ -512,6 +524,7 @@
         title: p.title,
         artist: artist.name,
         href: '#/' + artist.slug + '/' + p.slug,
+        thumbnailUrl: getYoutubeThumbnailUrl(p.youtubeUrl),
         gradientFrom: i % 2 === 0 ? 'from-primary/30' : 'from-ncs-pink/30',
         gradientTo: i % 2 === 0 ? 'to-ncs-pink/20' : 'to-primary/20',
       });
@@ -557,6 +570,7 @@
             title: p.title,
             artist: artist.name,
             href: '#/' + artist.slug + '/' + p.slug,
+            thumbnailUrl: getYoutubeThumbnailUrl(p.youtubeUrl),
             gradientFrom: i % 2 === 0 ? 'from-primary/30' : 'from-ncs-pink/30',
             gradientTo: i % 2 === 0 ? 'to-ncs-pink/20' : 'to-primary/20',
           });
@@ -593,6 +607,7 @@
         gradientTo: 'to-ncs-pink/10',
         badgeClass: 'bg-primary',
         heroHeight: 'min-h-[250px] md:min-h-[320px] h-auto',
+        bgImage: getYoutubeThumbnailUrl(piece.youtubeUrl),
       }),
       '<div class="flex flex-col gap-stack-md px-margin-mobile md:px-margin-desktop pb-stack-lg max-w-[1600px] mx-auto w-full">',
       ScoreFrame(),
