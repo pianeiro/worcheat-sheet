@@ -26,6 +26,12 @@
     return 'musics/' + artistSlug + '/' + pieceSlug + '.ly';
   }
 
+  function getYoutubeChannelAvatarUrl(channelUrl) {
+    if (!channelUrl) return null;
+    var m = channelUrl.match(/(?:youtube\.com|youtu\.be)\/(?:channel\/)?([\w@-]+)/);
+    return m ? 'https://unavatar.io/youtube/' + m[1] : null;
+  }
+
   function getYoutubeThumbnailUrl(youtubeUrl) {
     if (!youtubeUrl) return null;
     var match = youtubeUrl.match(/(?:youtu\.be\/|v=)([a-zA-Z0-9_-]{11})/);
@@ -257,7 +263,7 @@
     return [
       '<a href="' + href + '" class="bg-surface-card rounded-2xl p-6 md:p-8 border border-white/5 shadow-lg hover:border-primary/50 hover:bg-surface-container transition-all duration-300 group cursor-pointer flex flex-col items-center text-center">',
       '<div class="relative w-32 h-32 md:w-40 md:h-40 mb-6">',
-      '<div class="w-full h-full rounded-full bg-gradient-to-br ' + gradientFrom + ' ' + gradientTo + ' group-hover:shadow-[0_0_30px_rgba(189,0,255,0.4)] transition-all duration-500 group-hover:scale-105"></div>',
+      '<div class="w-full h-full rounded-full bg-gradient-to-br ' + gradientFrom + ' ' + gradientTo + ' group-hover:shadow-[0_0_30px_rgba(189,0,255,0.4)] transition-all duration-500 group-hover:scale-105 overflow-hidden">' + (props.profileImageUrl ? '<img class="w-full h-full object-cover" src="' + props.profileImageUrl + '" alt="">' : '') + '</div>',
       '<div class="absolute inset-0 rounded-full border-2 border-transparent group-hover:border-primary transition-colors duration-500"></div>',
       '</div>',
       '<h3 class="font-headline-md text-xl text-on-surface font-bold mb-2 truncate w-full group-hover:text-primary transition-colors">' + name + '</h3>',
@@ -467,6 +473,7 @@
         href: '#/' + a.slug,
         gradientFrom: g.split(' ')[0],
         gradientTo: g.split(' ')[1],
+        profileImageUrl: getYoutubeChannelAvatarUrl(a.youtubeChannelUrl),
       });
     }).join('\n');
 
@@ -502,6 +509,7 @@
         href: '#/' + a.slug,
         gradientFrom: g.split(' ')[0],
         gradientTo: g.split(' ')[1],
+        profileImageUrl: getYoutubeChannelAvatarUrl(a.youtubeChannelUrl),
       });
     }).join('\n');
     return [
@@ -586,6 +594,7 @@
         href: '#/' + a.slug,
         gradientFrom: g.split(' ')[0],
         gradientTo: g.split(' ')[1],
+        profileImageUrl: getYoutubeChannelAvatarUrl(a.youtubeChannelUrl),
       });
     }).join('\n');
 

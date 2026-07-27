@@ -40,3 +40,8 @@ Features marked **inactive** exist in the UI as nav items/buttons but are not wi
 - **Home, Artists** — active nav items
 
 _Dropped_: Library, Playlists, Profile, Premium/Upgrade, Radio, Follow, Favorite, Browse, Discover
+
+
+**profileImageUrl**:
+The URL of an artist's YouTube channel avatar image, resolved via `https://unavatar.io/youtube/{handle}` at render time — no runtime fetch needed since unavatar is an image CDN.
+_Avoid_: avatar, pfp, photo
