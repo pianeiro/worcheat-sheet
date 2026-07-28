@@ -730,6 +730,7 @@
   // ---- Route handler ----
 
   function handleRoute() {
+    document.querySelector('main').scrollTo(0, 0);
     var route = parseHash();
     state.currentArtistSlug = route.artistSlug;
     state.currentPieceSlug = route.pieceSlug;
@@ -769,6 +770,7 @@
         });
       });
 
+      history.scrollRestoration = 'manual';
       window.addEventListener('hashchange', handleRoute);
       handleRoute();
     } catch (err) {
