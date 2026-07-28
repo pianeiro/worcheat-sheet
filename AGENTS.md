@@ -23,27 +23,26 @@ node --check app.js            # syntax check (only verification gate)
 1. Add entry to `data/artists.json` — `{ slug, name, pieces: [{ slug, title, youtubeUrl? }] }`
 2. Create `musics/{artist-slug}/{piece-slug}.ly`
 
-Slugs are lowercase-hyphenated.
+Slugs are lowercase-hyphenated. Auto-generated from names if omitted in JSON (app.js handles fallback).
 
 ## Architecture
 
-- **Layout shell** (`index.html`): sidebar (desktop), top nav, sticky footer, bottom nav (mobile) — hardcoded. Only `<main>` is swapped by JS.
-- **`app.js`**: IIFE, no exports. Component factories are pure functions returning HTML strings. Routes (in `handleRoute()`) assign `innerHTML` then attach event listeners.
-- **Hero section**: Uses `flex flex-col justify-end` with `relative` content wrapper (not `absolute inset-0` + `overflow-hidden`) so long titles expand the section instead of clipping.
-- **Lazy score render**: "View Score" button (`#piece-hero-cta`) calls `renderScore()` on click — no auto-render.
-- **Hacklily WebSocket**: `wss://render.hacklily.org/rpc` — must be reachable. Timeout 25s (hardcoded). Scores compile `.ly` → SVG.
-- **Design system**: Tailwind config inline in `index.html` (`#tailwind-config`). Key color tokens: `primary: #ecb2ff`, `primary-container: #bd00ff`, `surface: #131313`, `surface-card: #121212`.
-- **No `.gitignore`** — create one if build artifacts appear.
+- **Shell is hardcoded in `index.html`** — sidebar (desktop), top nav, sticky footer, bottom nav (mobile). Only `<main>` is swapped by JS. The `Sidebar()`, `TopNav()`, `Footer()`, `BottomNav()` factories in `app.js` are unused dead code.
+- **`app.js`**: IIFE, no exports. Routes in `handleRoute()` assign `innerHTML` then attach event listeners. Lazy score render: "View Score" button (`#piece-hero-cta`) calls `renderScore()` on click — no auto-render.
+- **Hacklily WebSocket**: `wss://render.hacklily.org/rpc` — must be reachable. 25s timeout (hardcoded). Renders `.ly` → SVG inside a white `<div>`.
+- **Tailwind**: CDN-loaded (not npm). Config inline in `index.html` (`#tailwind-config`).
+- **Artist avatars**: resolved via `https://unavatar.io/youtube/{handle}` — image CDN, no runtime JS fetch.
+- **YouTube thumbnails**: `https://img.youtube.com/vi/{id}/maxresdefault.jpg` — may 404 for some videos.
+
+## Domain glossary
+
+See `CONTEXT.md` for canonical terms (Piece, Artist, Score, Collection, View Score, Render). Use consistently.
 
 ## Constraints
 
 - `.ly` files: LilyPond source with chord names + melody. Keys, time sigs, paper size set per-file.
-- SVG output renders inside a white `<div>` — no per-page CSS needed.
-- No audio playback. Pieces with `youtubeUrl` show "Watch on YouTube" in Credits.
-- No project images stored in repo — hero backgrounds use solid gradients or YouTube video thumbnails.
-- Glassmorphism (`backdrop-filter: blur()`) requires Chrome 76+, Firefox 103+, Safari 14+.
-- Inactive (visual placeholder only): Trending, Help, Settings, Share, Search.
-- Lightweight tags used for versioning (e.g., `v0.1.0`, `v0.2.0`). No annotated tags.
+- Inactive nav items (Trending, Help, Settings, Search, Share) are visual placeholders — not wired.
+- No `.gitignore` — create one if build artifacts appear.
 
 ## Workflow
 
