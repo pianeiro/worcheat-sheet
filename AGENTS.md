@@ -6,7 +6,7 @@ Static SPA that renders LilyPond scores via Hacklily WebSocket. No build, no bun
 
 ```bash
 python3 -m http.server 8000   # fetch() requires HTTP, not file://
-node --check app.js            # syntax check (only verification gate)
+node --input-type=module --check < js/app.js   # syntax check (ES module entrypoint)
 ```
 
 ## Routes
@@ -27,8 +27,15 @@ Slugs are lowercase-hyphenated. Auto-generated from names if omitted in JSON (ap
 
 ## Architecture
 
-- **Shell is hardcoded in `index.html`** — sidebar (desktop), top nav, sticky footer, bottom nav (mobile). Only `<main>` is swapped by JS. The `Sidebar()`, `TopNav()`, `Footer()`, `BottomNav()` factories in `app.js` are unused dead code.
-- **`app.js`**: IIFE, no exports. Routes in `handleRoute()` assign `innerHTML` then attach event listeners. Lazy score render: "View Score" button (`#piece-hero-cta`) calls `renderScore()` on click — no auto-render.
+- **Shell is hardcoded in `index.html`** — sidebar (desktop), top nav, sticky footer, bottom nav (mobile). Only `<main>` is swapped by JS.
+- **7 ES modules in `js/`**, imported by `js/app.js` (single entrypoint, `type="module"`):
+  - `state.js` — global state, constants, mainContent DOM ref
+  - `helpers.js` — pure utility functions (escapeHtml, slugify, getLyPath, YouTube helpers)
+  - `components.js` — UI component factories returning HTML strings (HeroSection, PieceCard, ArtistCard, PieceRow, ScoreFrame)
+  - `views.js` — page-level view builders (buildHomeView, buildArtistsIndexView, buildArtistView, buildPieceView)
+  - `score.js` — Hacklily WebSocket RPC + renderScore (lazy, triggered by "View Score" button `#piece-hero-cta`)
+  - `router.js` — parseHash, navigate, updateNavActiveState, handleRoute
+  - `app.js` — init() entrypoint: fetch shell partial, fetch data, bootstrap routing
 - **Hacklily WebSocket**: `wss://render.hacklily.org/rpc` — must be reachable. 25s timeout (hardcoded). Renders `.ly` → SVG inside a white `<div>`.
 - **Tailwind**: CDN-loaded (not npm). Config inline in `index.html` (`#tailwind-config`).
 - **Artist avatars**: resolved via `https://unavatar.io/youtube/{handle}` — image CDN, no runtime JS fetch.
