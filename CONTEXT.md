@@ -13,12 +13,16 @@ A composer or musician whose pieces are collected in the catalog.
 _Avoid_: Performer, creator
 
 **Score**:
-The rendered SVG output of a piece's LilyPond source.
+The rendered SVG output of a piece's LilyPond source. Produced by the RenderScore use case via the ScoreRenderer gateway; returned as an application-layer result with pages and logs.
 _Avoid_: Sheet music, tab
 
 **Collection**:
 The full set of artists and their pieces displayed on the home screen.
 _Avoid_: Library, catalog, playlist
+
+**Catalog**:
+The read-only local database the app reads at runtime: `data/artists.json` (the index) plus the `.ly` source files under `data/musics/`. It is fetched via repositories — never embedded in the UI code.
+_Avoid_: backend, server, datastore
 
 **View Score**:
 The primary CTA on a piece detail page — triggers the Hacklily WebSocket render of the score SVG inline.

@@ -9,7 +9,7 @@ export function slugify(str) {
 }
 
 export function getLyPath(artistSlug, pieceSlug) {
-  return 'musics/' + artistSlug + '/' + pieceSlug + '.ly';
+  return 'data/musics/' + artistSlug + '/' + pieceSlug + '.ly';
 }
 
 export function getYoutubeChannelAvatarUrl(channelUrl) {
