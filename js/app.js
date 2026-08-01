@@ -1,5 +1,6 @@
+import { slugify } from './domain/value-objects.js';
 import { state, mainContent } from './state.js';
-import { slugify, escapeHtml } from './helpers.js';
+import { escapeHtml } from './helpers.js';
 import { handleRoute } from './router.js';
 
 async function init() {

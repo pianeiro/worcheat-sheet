@@ -4,10 +4,6 @@ export function escapeHtml(str) {
   return div.innerHTML;
 }
 
-export function slugify(str) {
-  return str.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
-}
-
 export function getLyPath(artistSlug, pieceSlug) {
   return 'data/musics/' + artistSlug + '/' + pieceSlug + '.ly';
 }
