@@ -7,7 +7,7 @@ import { createRouteController } from './presentation/route-controller.js';
 
 async function init() {
   try {
-    var shellResp = await fetch('partials/shell.html');
+    var shellResp = await fetch('js/presentation/shell.html');
     var shellHtml = await shellResp.text();
     var tmp = document.createElement('div');
     tmp.innerHTML = shellHtml;
