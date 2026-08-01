@@ -2,9 +2,12 @@ import { state } from './state.js';
 import { escapeHtml } from './helpers.js';
 import { createLySourceRepository } from './infrastructure/ly-source-repository.js';
 import { createHacklilyGateway } from './infrastructure/hacklily-gateway.js';
+import { renderScore as renderScoreUseCase } from './application/render-score.js';
 
-var lySourceRepository = createLySourceRepository();
-var hacklilyGateway = createHacklilyGateway();
+var scoreDeps = {
+  lySourceRepository: createLySourceRepository(),
+  scoreRenderer: createHacklilyGateway(),
+};
 
 export function renderScore(artistSlug, pieceSlug) {
   var artist = state.artists.find(function (a) { return a.slug === artistSlug; });
@@ -21,15 +24,7 @@ export function renderScore(artistSlug, pieceSlug) {
   ].join('\n');
   contentEl.classList.add('hidden');
 
-  var lyPath = lySourceRepository.fetchLy(artistSlug, pieceSlug);
-
-  lyPath.then(function (lySrc) {
-    statusEl.innerHTML = [
-      '<div class="w-9 h-9 border-4 border-outline-variant border-t-primary rounded-full animate-spin mx-auto mb-4"></div>',
-      '<p class="text-on-surface-variant text-body-md">Rendering via Hacklily...</p>',
-    ].join('\n');
-    return hacklilyGateway.render(lySrc);
-  }).then(function (result) {
+  renderScoreUseCase(scoreDeps, artistSlug, pieceSlug).then(function (result) {
     var svgPages = result.files;
     var html = '';
     if (svgPages && svgPages.length > 0) {

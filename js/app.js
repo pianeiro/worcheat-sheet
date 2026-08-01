@@ -1,6 +1,7 @@
 import { state, mainContent } from './state.js';
 import { escapeHtml } from './helpers.js';
 import { createCatalogRepository } from './infrastructure/catalog-repository.js';
+import { loadCatalog } from './application/load-catalog.js';
 import { handleRoute } from './router.js';
 
 async function init() {
@@ -27,7 +28,8 @@ async function init() {
     if (shellInsideBottom && footer) shellInsideBottom.replaceWith(footer);
 
     var catalogRepository = createCatalogRepository();
-    state.artists = await catalogRepository.load();
+    var collection = await loadCatalog(catalogRepository);
+    state.artists = collection.artists;
 
     history.scrollRestoration = 'manual';
     window.addEventListener('hashchange', handleRoute);
