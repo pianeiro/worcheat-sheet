@@ -1,8 +1,9 @@
-import { state, mainContent } from './state.js';
-import { escapeHtml } from './helpers.js';
+import { errorMessage } from './presentation/formatting.js';
 import { createCatalogRepository } from './infrastructure/catalog-repository.js';
+import { createLySourceRepository } from './infrastructure/ly-source-repository.js';
+import { createHacklilyGateway } from './infrastructure/hacklily-gateway.js';
 import { loadCatalog } from './application/load-catalog.js';
-import { handleRoute } from './router.js';
+import { createRouteController } from './presentation/route-controller.js';
 
 async function init() {
   try {
@@ -27,15 +28,19 @@ async function init() {
     var footer = tmp.querySelector('footer');
     if (shellInsideBottom && footer) shellInsideBottom.replaceWith(footer);
 
-    var catalogRepository = createCatalogRepository();
-    var collection = await loadCatalog(catalogRepository);
-    state.artists = collection.artists;
+    var collection = await loadCatalog(createCatalogRepository());
+    var scoreDeps = {
+      lySourceRepository: createLySourceRepository(),
+      scoreRenderer: createHacklilyGateway(),
+    };
 
     history.scrollRestoration = 'manual';
-    window.addEventListener('hashchange', handleRoute);
-    handleRoute();
+    var routeController = createRouteController(collection, scoreDeps);
+    window.addEventListener('hashchange', routeController.handleRoute);
+    routeController.handleRoute();
   } catch (err) {
-    mainContent.innerHTML = '<div class="text-center py-16 text-red-400 text-body-md">Failed to load artists: ' + escapeHtml(err.message) + '</div>';
+    var mainContent = document.getElementById('main-content');
+    mainContent.innerHTML = errorMessage('Failed to load artists: ' + err.message);
   }
 }
 

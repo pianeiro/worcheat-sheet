@@ -15,3 +15,7 @@ export function getYoutubeThumbnailUrl(youtubeUrl) {
   var match = youtubeUrl.match(/(?:youtu\.be\/|v=)([a-zA-Z0-9_-]{11})/);
   return match ? 'https://img.youtube.com/vi/' + match[1] + '/maxresdefault.jpg' : null;
 }
+
+export function errorMessage(msg) {
+  return '<div class="text-center py-16 text-red-400 text-body-md">' + escapeHtml(msg) + '</div>';
+}
