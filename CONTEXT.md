@@ -32,6 +32,31 @@ _Avoid_: Play, listen, stream
 The server-side LilyPond compilation of `.ly` source into SVG via the Hacklily WebSocket.
 _Avoid_: Compile, generate
 
+## Architecture vocabulary
+
+**LySource**:
+The raw `.ly` file content fetched from the Catalog by the LySourceRepository. Explicitly **not** a domain entity — it is infrastructure data handed to the ScoreRenderer.
+_Avoid_: Score source, source file
+
+**Repository**:
+A data-access boundary over the Catalog — one of CatalogRepository (index) or LySourceRepository (sources). The only reader of the Catalog.
+_Avoid_: DAO, store
+
+**Gateway**:
+A boundary to an external service. Specifically the ScoreRenderer port, implemented by the HacklilyGateway adapter; the app never touches the WebSocket protocol directly.
+_Avoid_: Service, client
+
+**Presenter**:
+A presentation-layer function that turns use-case output into a view model (formatted URLs, gradients, labels). Views never see entities directly.
+_Avoid_: Controller, model
+
+**View model**:
+Plain data produced by a presenter and consumed by views/components. Maps 1:1 to future React component props.
+
+**Use case**:
+A function in the application layer orchestrating domain and infrastructure (e.g., LoadCatalog, ViewPiece, RenderScore). Receives its dependencies as arguments.
+_Avoid_: Interactor, handler
+
 ## Feature state
 
 Features marked **inactive** exist in the UI as nav items/buttons but are not wired to functionality — they are visual placeholders for future implementation.
