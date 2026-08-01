@@ -1,55 +1,37 @@
-import { state } from './state.js';
-import { getYoutubeThumbnailUrl, getYoutubeChannelAvatarUrl } from './helpers.js';
 import { HeroSection, PieceCard, ArtistCard, PieceRow, ScoreFrame } from './components.js';
 
-export function buildHomeView() {
-  var pieces = state.artists.length > 0
-    ? state.artists.reduce(function (acc, a) { return acc.concat(a.pieces.map(function (p) { return { piece: p, artist: a }; })); }, [])
-    : [];
+export function buildHomeView(vm) {
+  var hero = vm.featured;
+  var heroHtml = HeroSection({
+    label: hero.label,
+    title: hero.title,
+    subtitle: hero.subtitle,
+    ctaHref: hero.ctaHref,
+    ctaLabel: hero.ctaLabel,
+    bgImage: hero.bgImage,
+    gradientVia: hero.gradientVia,
+  });
 
-  var featuredPiece = pieces.length > 0 ? pieces[0] : null;
-  var artists = state.artists;
-
-  var heroHtml = featuredPiece
-    ? HeroSection({
-        label: 'Featured Score',
-        title: featuredPiece.piece.title,
-        subtitle: featuredPiece.artist.name,
-        ctaHref: '#/' + featuredPiece.artist.slug + '/' + featuredPiece.piece.slug,
-        ctaLabel: 'View Score',
-        bgImage: getYoutubeThumbnailUrl(featuredPiece.piece.youtubeUrl),
-      })
-    : HeroSection({
-        label: 'Featured Score',
-        title: 'WorCheat Sheet',
-        subtitle: 'Select an artist to browse pieces',
-        ctaHref: '#/artists',
-        ctaLabel: 'Browse Artists',
-        gradientVia: 'via-primary/10',
-      });
-
-  var pieceCards = pieces.slice(0, 4).map(function (item, i) {
-    var g = i % 2 === 0 ? 'from-primary/30 via-surface to-ncs-pink/20' : 'from-ncs-pink/30 via-surface to-primary/20';
+  var pieceCards = vm.featuredPieces.map(function (p) {
     return PieceCard({
-      title: item.piece.title,
-      artist: item.artist.name,
-      href: '#/' + item.artist.slug + '/' + item.piece.slug,
-      thumbnailUrl: getYoutubeThumbnailUrl(item.piece.youtubeUrl),
-      gradientFrom: g.split(' ')[0],
-      gradientVia: g.split(' ')[1],
-      gradientTo: g.split(' ')[2],
+      title: p.title,
+      artist: p.artist,
+      href: p.href,
+      thumbnailUrl: p.thumbnailUrl,
+      gradientFrom: p.gradients[0],
+      gradientVia: p.gradients[1],
+      gradientTo: p.gradients[2],
     });
   }).join('\n');
 
-  var artistCards = artists.slice(0, 4).map(function (a, i) {
-    var g = i % 2 === 0 ? 'from-primary/40 to-ncs-pink/20' : 'from-ncs-pink/40 to-primary/20';
+  var artistCards = vm.artists.map(function (a) {
     return ArtistCard({
       name: a.name,
-      genre: 'CC',
-      href: '#/' + a.slug,
-      gradientFrom: g.split(' ')[0],
-      gradientTo: g.split(' ')[1],
-      profileImageUrl: getYoutubeChannelAvatarUrl(a.youtubeChannelUrl),
+      genre: a.genre,
+      href: a.href,
+      gradientFrom: a.gradients[0],
+      gradientTo: a.gradients[1],
+      profileImageUrl: a.profileImageUrl,
     });
   }).join('\n');
 
@@ -75,17 +57,15 @@ export function buildHomeView() {
   ].join('\n');
 }
 
-export function buildArtistsIndexView() {
-  var artists = state.artists;
-  var artistCards = artists.map(function (a, i) {
-    var g = i % 2 === 0 ? 'from-primary/40 to-ncs-pink/20' : 'from-ncs-pink/40 to-primary/20';
+export function buildArtistsIndexView(vm) {
+  var artistCards = vm.artists.map(function (a) {
     return ArtistCard({
       name: a.name,
-      genre: 'CC',
-      href: '#/' + a.slug,
-      gradientFrom: g.split(' ')[0],
-      gradientTo: g.split(' ')[1],
-      profileImageUrl: getYoutubeChannelAvatarUrl(a.youtubeChannelUrl),
+      genre: a.genre,
+      href: a.href,
+      gradientFrom: a.gradients[0],
+      gradientTo: a.gradients[1],
+      profileImageUrl: a.profileImageUrl,
     });
   }).join('\n');
   return [
@@ -98,26 +78,23 @@ export function buildArtistsIndexView() {
   ].join('\n');
 }
 
-export function buildArtistView(artistSlug) {
-  var artist = state.artists.find(function (a) { return a.slug === artistSlug; });
-  if (!artist) return '<div class="text-center py-16 text-red-400 text-body-md">Artist not found.</div>';
-
-  var pieceRows = artist.pieces.map(function (p, i) {
+export function buildArtistView(vm) {
+  var pieceRows = vm.pieces.map(function (p) {
     return PieceRow({
-      index: i + 1,
+      index: p.index,
       title: p.title,
-      artist: artist.name,
-      href: '#/' + artist.slug + '/' + p.slug,
-      thumbnailUrl: getYoutubeThumbnailUrl(p.youtubeUrl),
-      gradientFrom: i % 2 === 0 ? 'from-primary/30' : 'from-ncs-pink/30',
-      gradientTo: i % 2 === 0 ? 'to-ncs-pink/20' : 'to-primary/20',
+      artist: p.artist,
+      href: p.href,
+      thumbnailUrl: p.thumbnailUrl,
+      gradientFrom: p.gradients[0],
+      gradientTo: p.gradients[1],
     });
   }).join('\n');
 
   return [
     HeroSection({
       label: 'Artist',
-      title: artist.name,
+      title: vm.name,
       subtitle: '',
       ctaHref: '#',
       ctaLabel: '',
@@ -128,7 +105,7 @@ export function buildArtistView(artistSlug) {
       badgeClass: 'bg-primary',
       heroHeight: 'h-[250px] md:h-[320px]',
       hideCta: true,
-      bgImage: getYoutubeChannelAvatarUrl(artist.youtubeChannelUrl),
+      bgImage: vm.profileImageUrl,
     }),
     '<div class="flex flex-col gap-stack-md px-margin-mobile md:px-margin-desktop pb-stack-lg max-w-[1600px] mx-auto w-full">',
     '<div class="bg-surface-card rounded-2xl p-6 md:p-8 border border-white/5 shadow-lg">',
@@ -142,48 +119,41 @@ export function buildArtistView(artistSlug) {
   ].join('\n');
 }
 
-export function buildPieceView(artistSlug, pieceSlug) {
-  var artist = state.artists.find(function (a) { return a.slug === artistSlug; });
-  var piece = artist ? artist.pieces.find(function (p) { return p.slug === pieceSlug; }) : null;
-  if (!artist || !piece) return '<div class="text-center py-16 text-red-400 text-body-md">Piece not found.</div>';
-
-  var otherPieces = artist.pieces.filter(function (p) { return p.slug !== pieceSlug; });
-  var morePiecesHtml = otherPieces.length > 0
-    ? otherPieces.map(function (p, i) {
+export function buildPieceView(vm) {
+  var morePiecesHtml = vm.otherPieces.length > 0
+    ? vm.otherPieces.map(function (p) {
         return PieceRow({
-          index: i + 1,
+          index: p.index,
           title: p.title,
-          artist: artist.name,
-          href: '#/' + artist.slug + '/' + p.slug,
-          thumbnailUrl: getYoutubeThumbnailUrl(p.youtubeUrl),
-          gradientFrom: i % 2 === 0 ? 'from-primary/30' : 'from-ncs-pink/30',
-          gradientTo: i % 2 === 0 ? 'to-ncs-pink/20' : 'to-primary/20',
+          artist: p.artist,
+          href: p.href,
+          thumbnailUrl: p.thumbnailUrl,
+          gradientFrom: p.gradients[0],
+          gradientTo: p.gradients[1],
         });
       }).join('\n')
     : '<div class="text-center py-8 text-on-surface-variant text-body-md">More pieces coming soon.</div>';
 
-  var otherArtists = state.artists.filter(function (a) { return a.slug !== artistSlug; });
-  var similarArtistCards = otherArtists.map(function (a, i) {
-    var g = i % 2 === 0 ? 'from-primary/40 to-ncs-pink/20' : 'from-ncs-pink/40 to-primary/20';
+  var similarArtistCards = vm.similarArtists.map(function (a) {
     return ArtistCard({
       name: a.name,
-      genre: 'CC',
-      href: '#/' + a.slug,
-      gradientFrom: g.split(' ')[0],
-      gradientTo: g.split(' ')[1],
-      profileImageUrl: getYoutubeChannelAvatarUrl(a.youtubeChannelUrl),
+      genre: a.genre,
+      href: a.href,
+      gradientFrom: a.gradients[0],
+      gradientTo: a.gradients[1],
+      profileImageUrl: a.profileImageUrl,
     });
   }).join('\n');
 
-  var watchYoutubeHtml = piece.youtubeUrl
-    ? '<a href="' + piece.youtubeUrl + '" target="_blank" rel="noopener" class="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-primary-container hover:bg-primary text-on-primary-container text-sm font-semibold transition-all"><span class="material-symbols-outlined text-base">play_arrow</span>Watch on YouTube</a>'
+  var watchYoutubeHtml = vm.watchYoutubeUrl
+    ? '<a href="' + vm.watchYoutubeUrl + '" target="_blank" rel="noopener" class="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-primary-container hover:bg-primary text-on-primary-container text-sm font-semibold transition-all"><span class="material-symbols-outlined text-base">play_arrow</span>Watch on YouTube</a>'
     : '<span class="text-on-surface-variant text-sm pointer-events-none opacity-50">No video available</span>';
 
   return [
     HeroSection({
       label: 'Score',
-      title: piece.title,
-      subtitle: artist.name,
+      title: vm.title,
+      subtitle: vm.artistName,
       ctaHref: '#',
       ctaLabel: 'View Score',
       ctaIcon: 'visibility',
@@ -193,7 +163,7 @@ export function buildPieceView(artistSlug, pieceSlug) {
       gradientTo: 'to-ncs-pink/10',
       badgeClass: 'bg-primary',
       heroHeight: 'min-h-[250px] md:min-h-[320px] h-auto',
-      bgImage: getYoutubeThumbnailUrl(piece.youtubeUrl),
+      bgImage: vm.bgImage,
     }),
     '<div class="flex flex-col gap-stack-md px-margin-mobile md:px-margin-desktop pb-stack-lg max-w-[1600px] mx-auto w-full">',
     ScoreFrame(),
