@@ -1,54 +1,10 @@
-import { state, HACKLILY_URL } from './state.js';
-import { getLyPath, escapeHtml } from './helpers.js';
+import { state } from './state.js';
+import { escapeHtml } from './helpers.js';
+import { createLySourceRepository } from './infrastructure/ly-source-repository.js';
+import { createHacklilyGateway } from './infrastructure/hacklily-gateway.js';
 
-function renderLy(src) {
-  return new Promise(function (resolve, reject) {
-    var ws = new WebSocket(HACKLILY_URL);
-    var id = 'rpc_' + Date.now() + '_' + Math.random().toString(36).slice(2, 8);
-
-    ws.onopen = function () {
-      ws.send(JSON.stringify({
-        id: id,
-        jsonrpc: '2.0',
-        method: 'render',
-        params: {
-          backend: 'svg',
-          src: src,
-          version: 'stable',
-        },
-      }));
-    };
-
-    ws.onmessage = function (evt) {
-      try {
-        var data = JSON.parse(evt.data);
-        if (data.id !== id) return;
-        ws.close();
-        if (data.error) {
-          reject(new Error(data.error.message || JSON.stringify(data.error)));
-        } else if (data.result) {
-          resolve(data.result);
-        } else {
-          reject(new Error('Unexpected response format'));
-        }
-      } catch (e) {
-        reject(e);
-      }
-    };
-
-    ws.onerror = function () { reject(new Error('WebSocket connection failed')); };
-    ws.onclose = function (evt) {
-      if (evt.code !== 1000 && evt.code !== 1005) {
-        reject(new Error('WebSocket closed unexpectedly (code ' + evt.code + ')'));
-      }
-    };
-
-    setTimeout(function () {
-      ws.close();
-      reject(new Error('Render timed out'));
-    }, 25000);
-  });
-}
+var lySourceRepository = createLySourceRepository();
+var hacklilyGateway = createHacklilyGateway();
 
 export function renderScore(artistSlug, pieceSlug) {
   var artist = state.artists.find(function (a) { return a.slug === artistSlug; });
@@ -65,17 +21,14 @@ export function renderScore(artistSlug, pieceSlug) {
   ].join('\n');
   contentEl.classList.add('hidden');
 
-  var lyPath = getLyPath(artistSlug, pieceSlug);
+  var lyPath = lySourceRepository.fetchLy(artistSlug, pieceSlug);
 
-  fetch(lyPath).then(function (resp) {
-    if (!resp.ok) throw new Error('Failed to fetch .ly file (' + resp.status + ')');
-    return resp.text();
-  }).then(function (lySrc) {
+  lyPath.then(function (lySrc) {
     statusEl.innerHTML = [
       '<div class="w-9 h-9 border-4 border-outline-variant border-t-primary rounded-full animate-spin mx-auto mb-4"></div>',
       '<p class="text-on-surface-variant text-body-md">Rendering via Hacklily...</p>',
     ].join('\n');
-    return renderLy(lySrc);
+    return hacklilyGateway.render(lySrc);
   }).then(function (result) {
     var svgPages = result.files;
     var html = '';

@@ -4,10 +4,6 @@ export function escapeHtml(str) {
   return div.innerHTML;
 }
 
-export function getLyPath(artistSlug, pieceSlug) {
-  return 'data/musics/' + artistSlug + '/' + pieceSlug + '.ly';
-}
-
 export function getYoutubeChannelAvatarUrl(channelUrl) {
   if (!channelUrl) return null;
   var m = channelUrl.match(/(?:youtube\.com|youtu\.be)\/(?:channel\/)?([\w@-]+)/);

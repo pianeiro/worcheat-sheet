@@ -1,6 +1,6 @@
-import { slugify } from './domain/value-objects.js';
 import { state, mainContent } from './state.js';
 import { escapeHtml } from './helpers.js';
+import { createCatalogRepository } from './infrastructure/catalog-repository.js';
 import { handleRoute } from './router.js';
 
 async function init() {
@@ -26,15 +26,8 @@ async function init() {
     var footer = tmp.querySelector('footer');
     if (shellInsideBottom && footer) shellInsideBottom.replaceWith(footer);
 
-    var resp = await fetch('data/artists.json');
-    state.artists = await resp.json();
-
-    state.artists.forEach(function (artist) {
-      if (!artist.slug) artist.slug = slugify(artist.name);
-      artist.pieces.forEach(function (piece) {
-        if (!piece.slug) piece.slug = slugify(piece.title);
-      });
-    });
+    var catalogRepository = createCatalogRepository();
+    state.artists = await catalogRepository.load();
 
     history.scrollRestoration = 'manual';
     window.addEventListener('hashchange', handleRoute);
