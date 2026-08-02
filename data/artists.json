@@ -85,7 +85,24 @@
         "slug": "esse-e-o-dia-que-o-senhor-fez",
         "title": "Esse é o dia que o Senhor fez",
         "youtubeUrl": "https://youtu.be/ZLbnBZBkyj8&list=RDZLbnBZBkyj8"
+      },
+      {
+        "slug": "vem-esta-e-a-hora-da-adoracao",
+        "title": "Vem, esta é a hora da adoração",
+        "youtubeUrl": "https://youtu.be/JbaZhUaw3iI"
       }
     ]
+  },
+  {
+    "slug": "gabriel-guedes",
+    "name": "Gabriel Guedes",
+    "youtubeChannelUrl": "https://www.youtube.com/@gabrielguedesofficial",
+    "pieces": [
+      {
+        "slug": "outro-igual-nao-ha",
+        "title": "Outro igual não há",
+        "youtubeUrl": "https://youtu.be/nNV7QMsvhsM"
+      }
+    ]    
   }
 ]
