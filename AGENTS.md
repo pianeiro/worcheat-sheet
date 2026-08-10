@@ -6,7 +6,9 @@ Static SPA that renders LilyPond scores via Hacklily WebSocket. No build, no bun
 
 ```bash
 python3 -m http.server 8000   # fetch() requires HTTP, not file://
-node --input-type=module --check < js/app.js   # syntax check (ES module entrypoint)
+# Only verification available (no tests/lint/CI): per-file syntax check —
+# `node --check` validates only the file piped in, imports are resolved at runtime.
+for f in $(find js -name '*.js'); do node --input-type=module --check < "$f" || exit 1; done
 ```
 
 ## Routes
@@ -28,9 +30,10 @@ Slugs are lowercase-hyphenated. Auto-generated from names if omitted in JSON (do
 ## Architecture gotchas
 
 - **Scroll container is `<main>`, not `window`** — it has `overflow-y-auto`. On route change, `document.querySelector('main').scrollTo(0, 0)` must be called. Also `history.scrollRestoration = 'manual'` is set in `init()` to prevent browser override on hashchange.
-- **Multi-page scores**: LilyPond SVGs contain duplicate IDs (`page1`, `system1`, etc.). Only one page SVG can be in the DOM at a time — swap via innerHTML on pagination (`showPage` in `renderScore`).
+- **Multi-page scores**: LilyPond SVGs contain duplicate IDs (`page1`, `system1`, etc.). Only one page SVG can be in the DOM at a time — swap via innerHTML on pagination (`showPage` inside `wirePagination` in `js/presentation/presenters/score-presenter.js`). The render result is `{ files: [svgPageStrings], logs }`.
+- **Score render is lazy**: opening a piece detail does NOT render anything — the Hacklily call fires only when the user clicks the "View Score" CTA (`wireScoreCta` in `route-controller.js`), and that CTA stays disabled after one click per page load.
 - **Score SVGs overflow without CSS**: Inline style `#score-content .score-page svg{display:block;width:100%;height:auto;}` is injected per render to keep SVGs inside the container.
-- **Shell markup lives in `js/presentation/shell.html`** — sidebar (desktop), top nav, sticky footer, bottom nav (mobile). `index.html` holds placeholder divs (`#shell-outside`, `#shell-inside-top`, `#shell-inside-bottom`); `app.js` fetches and injects them at boot. Only `<main>` is swapped by JS.
+- **Shell markup lives in `js/presentation/shell.html`** — sidebar (desktop), top nav, sticky footer, bottom nav (mobile). `index.html` holds placeholder divs (`#shell-outside`, `#shell-inside-top`, `#shell-inside-bottom`); `app.js` fetches and injects them at boot. Shell parts have no IDs — `app.js` matches them by element type (`aside`, `header`, `footer`, `nav.bg-surface-glass`), so renaming elements in `shell.html` silently breaks injection. Only `<main>` is swapped by JS.
 - **Layered ES modules in `js/`**, imported by `js/app.js` (single entrypoint, `type="module"`, no build). Dependencies point inward; `app.js` is the composition root:
   - `domain/` — pure entities + value objects (`entities.js` — Artist/Piece/Collection factories, findArtist/findPiece; `value-objects.js` — slugify)
   - `application/` — use cases, plain functions with explicit injection: `load-catalog.js`, `view-artist.js`, `view-piece.js`, `render-score.js`
