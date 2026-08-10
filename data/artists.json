@@ -25,6 +25,11 @@
         "slug": "venham-a-mesa",
         "title": "Venham à Mesa",
         "youtubeUrl": "https://youtu.be/VxahoLVzOj8&list=RDVxahoLVzOj8"
+      },
+      {
+        "slug": "ate-que-ele-venha",
+        "title": "Até que ele venha",
+        "youtubeUrl": "https://youtu.be/NyklgqFHlsU"
       }
     ]
   },
@@ -102,6 +107,18 @@
         "slug": "outro-igual-nao-ha",
         "title": "Outro igual não há",
         "youtubeUrl": "https://youtu.be/nNV7QMsvhsM"
+      }
+    ]    
+  },
+  {
+    "slug": "paulo-cesar-baruk",
+    "name": "Paulo Cesar Baruk",
+    "youtubeChannelUrl": "https://www.youtube.com/@BarukTV",
+    "pieces": [
+      {
+        "slug": "clamo-jesus",
+        "title": "Clamo Jesus",
+        "youtubeUrl": "https://youtu.be/ye9caqETC0A"
       }
     ]    
   }
