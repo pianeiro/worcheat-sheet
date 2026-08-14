@@ -121,5 +121,17 @@
         "youtubeUrl": "https://youtu.be/ye9caqETC0A"
       }
     ]    
+  },
+  {
+    "slug": "get-worship",
+    "name": "Get Worship",
+    "youtubeChannelUrl": "https://youtube.com/@getworship",
+    "pieces": [
+      {
+        "slug": "algo-novo-vindo",
+        "title": "Algo novo vindo",
+        "youtubeUrl": "https://youtu.be/RV3ZGs073Gc"
+      }
+    ]
   }
 ]
