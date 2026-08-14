@@ -102,15 +102,17 @@ melody = \relative c'' {
   \break
 
   \md
-  \repeat percent 3 {bes4. \improvisationOn b2 \improvisationOff g16 aes}
-  bes4. \improvisationOn b8~2 \improvisationOff
+  \repeat volta 2 {
+    \repeat percent 3 {bes4. \improvisationOn b2 \improvisationOff g16 aes}
+    bes4. \improvisationOn b8~2 \improvisationOff
+  }
   \break
 
   \md
-  \repeat volta 2 {\repeat percent 3 {ees4 d bes f}}
+  \repeat volta 8 {\repeat percent 3 {ees4 d bes f}}
   \alternative {
-    \volta 1 {ees'4 d bes f}
-    \volta 2 {\improvisationOn b1\fermata \improvisationOff}
+    \volta 1,2,3,4,5,6,7 {ees'4 d bes f}
+    \volta 8 {\improvisationOn b1\fermata \improvisationOff}
   }
   \break
 
@@ -169,13 +171,13 @@ harmony = \chordmode {
 
   \repeat volta 2 {ees1*8}
 
-  ees4./g f8:m7~2 ees4./g aes8~2 ees4./g f8:m7~2 ees4./g aes8~2
+  \repeat volta 2 {ees4./g f8:m7~2 ees4./g aes8~2 ees4./g f8:m7~2 ees4./g aes8~2}
 
-  \repeat volta 2 {
-    c1:m7 bes ees/g
+  \repeat volta 8 {
+    c1:m7 bes/d ees
   } \alternative {
-    \volta 1 {aes}
-    \volta 2 {aes}
+    \volta 1,2,3,4,5,6,7 {aes}
+    \volta 8 {aes}
   }
 
 
