@@ -43,8 +43,8 @@ An immutable domain object identified by its value rather than its identity — 
 _Avoid_: Util, helper
 
 **Port**:
-A JSDoc contract in the application layer (`js/application/ports/`) that use cases depend on and adapters implement structurally. These typedefs are the future TypeScript interfaces.
-_Avoid_: Interface class, abstract class
+A contract declared as an abstract base class in the application layer (`js/application/ports/`) that use cases depend on and adapters extend. The base class is uninstantiable (its constructor throws via a `new.target` guard), declares `@abstract` stub methods that throw if never overridden, and is validated in the composition root with `instanceof`.
+_Avoid_: Interface class
 
 **Adapter**:
 A concrete implementation of a port in the infrastructure layer — JsonCatalogRepository, FileLySourceRepository, HacklilyScoreRenderer. Owns raw data shapes (JSON rows, file bytes, WebSocket frames); the boundary hands out domain objects only.
