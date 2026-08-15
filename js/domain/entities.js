@@ -1,35 +1,36 @@
-import { slugify } from './value-objects.js';
-
-export function createPiece(piece) {
-  return Object.freeze({
-    slug: piece.slug || slugify(piece.title),
-    title: piece.title,
-    youtubeUrl: piece.youtubeUrl || null,
-  });
+export class Piece {
+  constructor({ slug, title, youtubeUrl }) {
+    this.slug = slug;
+    this.title = title;
+    this.youtubeUrl = youtubeUrl || null;
+    Object.freeze(this);
+  }
 }
 
-export function createArtist(artist) {
-  return Object.freeze({
-    slug: artist.slug || slugify(artist.name),
-    name: artist.name,
-    youtubeChannelUrl: artist.youtubeChannelUrl || null,
-    pieces: Object.freeze(artist.pieces.map(createPiece)),
-  });
+export class Artist {
+  constructor({ slug, name, youtubeChannelUrl, pieces }) {
+    this.slug = slug;
+    this.name = name;
+    this.youtubeChannelUrl = youtubeChannelUrl || null;
+    this.pieces = Object.freeze(pieces);
+    Object.freeze(this);
+  }
 }
 
-export function createCollection(artists) {
-  return Object.freeze({
-    artists: Object.freeze(artists.map(createArtist)),
-  });
-}
+export class Collection {
+  constructor(artists) {
+    this.artists = Object.freeze(artists);
+    Object.freeze(this);
+  }
 
-export function findArtist(collection, slug) {
-  return collection.artists.find(function (a) { return a.slug === slug; }) || null;
-}
+  findArtist(slug) {
+    return this.artists.find(function (a) { return a.slug === slug; }) || null;
+  }
 
-export function findPiece(collection, artistSlug, pieceSlug) {
-  var artist = findArtist(collection, artistSlug);
-  if (!artist) return null;
-  var piece = artist.pieces.find(function (p) { return p.slug === pieceSlug; }) || null;
-  return piece ? { artist: artist, piece: piece } : null;
+  findPiece(artistSlug, pieceSlug) {
+    var artist = this.findArtist(artistSlug);
+    if (!artist) return null;
+    var piece = artist.pieces.find(function (p) { return p.slug === pieceSlug; }) || null;
+    return piece ? { artist: artist, piece: piece } : null;
+  }
 }

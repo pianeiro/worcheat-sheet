@@ -1,5 +1,15 @@
-import { findArtist } from '../domain/entities.js';
+/**
+ * @typedef {import('../domain/entities.js').Collection} Collection
+ * @typedef {import('../domain/entities.js').Artist} Artist
+ */
 
-export function viewArtist(collection, artistSlug) {
-  return findArtist(collection, artistSlug);
+export class ViewArtist {
+  /**
+   * @param {Collection} collection
+   * @param {string} artistSlug
+   * @returns {Artist|null}
+   */
+  execute(collection, artistSlug) {
+    return collection.findArtist(artistSlug);
+  }
 }

@@ -1,9 +1,20 @@
 import { errorMessage } from './presentation/formatting.js';
-import { createCatalogRepository } from './infrastructure/catalog-repository.js';
-import { createLySourceRepository } from './infrastructure/ly-source-repository.js';
-import { createHacklilyGateway } from './infrastructure/hacklily-gateway.js';
-import { loadCatalog } from './application/load-catalog.js';
-import { createRouteController } from './presentation/route-controller.js';
+import { JsonCatalogRepository } from './infrastructure/catalog-repository.js';
+import { FileLySourceRepository } from './infrastructure/ly-source-repository.js';
+import { HacklilyScoreRenderer } from './infrastructure/hacklily-gateway.js';
+import { LoadCatalog } from './application/load-catalog.js';
+import { ViewArtist } from './application/view-artist.js';
+import { ViewPiece } from './application/view-piece.js';
+import { RenderScore } from './application/render-score.js';
+import { RouteController } from './presentation/route-controller.js';
+
+function assertImplements(adapter, methods) {
+  methods.forEach(function (method) {
+    if (typeof adapter[method] !== 'function') {
+      throw new TypeError('Adapter is missing method "' + method + '"');
+    }
+  });
+}
 
 async function init() {
   try {
@@ -28,15 +39,32 @@ async function init() {
     var footer = tmp.querySelector('footer');
     if (shellInsideBottom && footer) shellInsideBottom.replaceWith(footer);
 
-    var collection = await loadCatalog(createCatalogRepository());
-    var scoreDeps = {
-      lySourceRepository: createLySourceRepository(),
-      scoreRenderer: createHacklilyGateway(),
-    };
+    var catalogRepository = new JsonCatalogRepository();
+    var lySourceRepository = new FileLySourceRepository();
+    var scoreRenderer = new HacklilyScoreRenderer();
+    assertImplements(catalogRepository, ['load']);
+    assertImplements(lySourceRepository, ['fetchLy']);
+    assertImplements(scoreRenderer, ['render']);
+
+    var loadCatalog = new LoadCatalog({ catalogRepository: catalogRepository });
+    var viewArtist = new ViewArtist();
+    var viewPiece = new ViewPiece();
+    var renderScore = new RenderScore({
+      lySourceRepository: lySourceRepository,
+      scoreRenderer: scoreRenderer,
+    });
+
+    var collection = await loadCatalog.execute();
 
     history.scrollRestoration = 'manual';
-    var routeController = createRouteController(collection, scoreDeps);
-    window.addEventListener('hashchange', routeController.handleRoute);
+    var routeController = new RouteController({
+      collection: collection,
+      viewArtist: viewArtist,
+      viewPiece: viewPiece,
+      renderScore: renderScore,
+      mainContent: document.getElementById('main-content'),
+    });
+    window.addEventListener('hashchange', routeController.handleRoute.bind(routeController));
     routeController.handleRoute();
   } catch (err) {
     var mainContent = document.getElementById('main-content');
