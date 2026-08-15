@@ -1,6 +1,3 @@
-import { viewArtist } from '../application/view-artist.js';
-import { viewPiece } from '../application/view-piece.js';
-import { renderScore } from '../application/render-score.js';
 import { errorMessage } from './formatting.js';
 import { buildHomeView, buildArtistsIndexView, buildArtistView, buildPieceView } from './views.js';
 import { buildHomeViewModel } from './presenters/home-presenter.js';
@@ -66,47 +63,52 @@ export function updateNavActiveState(route) {
   });
 }
 
-function wireScoreCta(route, scoreDeps) {
-  var cta = document.getElementById('piece-hero-cta');
-  if (!cta) return;
-  cta.addEventListener('click', function (e) {
-    e.preventDefault();
-    cta.classList.add('pointer-events-none', 'opacity-50');
-    var statusEl = document.getElementById('score-status');
-    var contentEl = document.getElementById('score-content');
-    if (!statusEl || !contentEl) return;
-    var scorePresenter = createScorePresenter(statusEl, contentEl);
-    scorePresenter.renderWith(renderScore(scoreDeps, route.artistSlug, route.pieceSlug));
-  });
-}
+export class RouteController {
+  constructor({ collection, viewArtist, viewPiece, renderScore, mainContent }) {
+    this.collection = collection;
+    this.viewArtist = viewArtist;
+    this.viewPiece = viewPiece;
+    this.renderScore = renderScore;
+    this.mainContent = mainContent;
+  }
 
-export function createRouteController(collection, scoreDeps) {
-  var mainContent = document.getElementById('main-content');
-
-  function handleRoute() {
+  handleRoute() {
     document.querySelector('main').scrollTo(0, 0);
     var route = parseHash();
     updateNavActiveState(route);
 
     if (route.view === 'home') {
-      mainContent.innerHTML = buildHomeView(buildHomeViewModel(collection));
+      this.mainContent.innerHTML = buildHomeView(buildHomeViewModel(this.collection));
     } else if (route.view === 'artist' && route.artistSlug === 'artists') {
-      mainContent.innerHTML = buildArtistsIndexView(buildArtistsIndexViewModel(collection));
+      this.mainContent.innerHTML = buildArtistsIndexView(buildArtistsIndexViewModel(this.collection));
     } else if (route.view === 'artist') {
-      var artist = viewArtist(collection, route.artistSlug);
-      mainContent.innerHTML = artist
+      var artist = this.viewArtist.execute(this.collection, route.artistSlug);
+      this.mainContent.innerHTML = artist
         ? buildArtistView(buildArtistViewModel(artist))
         : errorMessage('Artist not found.');
     } else if (route.view === 'piece') {
-      var data = viewPiece(collection, route.artistSlug, route.pieceSlug);
+      var data = this.viewPiece.execute(this.collection, route.artistSlug, route.pieceSlug);
       if (!data) {
-        mainContent.innerHTML = errorMessage('Piece not found.');
+        this.mainContent.innerHTML = errorMessage('Piece not found.');
         return;
       }
-      mainContent.innerHTML = buildPieceView(buildPieceViewModel(data));
-      wireScoreCta(route, scoreDeps);
+      this.mainContent.innerHTML = buildPieceView(buildPieceViewModel(data));
+      this.wireScoreCta(route);
     }
   }
 
-  return { handleRoute: handleRoute };
+  wireScoreCta(route) {
+    var cta = document.getElementById('piece-hero-cta');
+    if (!cta) return;
+    var self = this;
+    cta.addEventListener('click', function (e) {
+      e.preventDefault();
+      cta.classList.add('pointer-events-none', 'opacity-50');
+      var statusEl = document.getElementById('score-status');
+      var contentEl = document.getElementById('score-content');
+      if (!statusEl || !contentEl) return;
+      var scorePresenter = createScorePresenter(statusEl, contentEl);
+      scorePresenter.renderWith(self.renderScore.execute(route.artistSlug, route.pieceSlug));
+    });
+  }
 }
