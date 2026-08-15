@@ -13,7 +13,7 @@ A composer or musician whose pieces are collected in the catalog.
 _Avoid_: Performer, creator
 
 **Score**:
-The rendered SVG output of a piece's LilyPond source. Produced by the RenderScore use case via the ScoreRenderer gateway; returned as an application-layer result with pages and logs.
+The rendered SVG output of a piece's LilyPond source. Produced by the RenderScore use case via the ScoreRenderer port; returned as an application-layer result with pages and logs.
 _Avoid_: Sheet music, tab
 
 **Collection**:
@@ -34,16 +34,32 @@ _Avoid_: Compile, generate
 
 ## Architecture vocabulary
 
+**Entity**:
+A domain object with identity and behavior — Piece (slug), Artist (slug), Collection. Immutable: frozen at construction. Constructed by adapters with complete data; entities never normalize raw rows.
+_Avoid_: Model, row, factory
+
+**Value Object**:
+An immutable domain object identified by its value rather than its identity — `slugify`.
+_Avoid_: Util, helper
+
+**Port**:
+A JSDoc contract in the application layer (`js/application/ports/`) that use cases depend on and adapters implement structurally. These typedefs are the future TypeScript interfaces.
+_Avoid_: Interface class, abstract class
+
+**Adapter**:
+A concrete implementation of a port in the infrastructure layer — JsonCatalogRepository, FileLySourceRepository, HacklilyScoreRenderer. Owns raw data shapes (JSON rows, file bytes, WebSocket frames); the boundary hands out domain objects only.
+_Avoid_: Service, client
+
 **LySource**:
-The raw `.ly` file content fetched from the Catalog by the LySourceRepository. Explicitly **not** a domain entity — it is infrastructure data handed to the ScoreRenderer.
+The raw `.ly` file content fetched from the Catalog by the LySourceRepository port. Explicitly **not** a domain entity — it is infrastructure data handed to the ScoreRenderer.
 _Avoid_: Score source, source file
 
 **Repository**:
-A data-access boundary over the Catalog — one of CatalogRepository (index) or LySourceRepository (sources). The only reader of the Catalog.
+A port for reading the Catalog — CatalogRepository (index) or LySourceRepository (sources); declared in `js/application/ports/`, implemented by adapters in `js/infrastructure/`. The only reader of the Catalog. Ports return entities, never raw rows.
 _Avoid_: DAO, store
 
 **Gateway**:
-A boundary to an external service. Specifically the ScoreRenderer port, implemented by the HacklilyGateway adapter; the app never touches the WebSocket protocol directly.
+A boundary to an external service. Specifically the ScoreRenderer port, implemented by the HacklilyScoreRenderer adapter; the app never touches the WebSocket protocol directly.
 _Avoid_: Service, client
 
 **Presenter**:
@@ -54,7 +70,7 @@ _Avoid_: Controller, model
 Plain data produced by a presenter and consumed by views/components. Maps 1:1 to future React component props.
 
 **Use case**:
-A function in the application layer orchestrating domain and infrastructure (e.g., LoadCatalog, ViewPiece, RenderScore). Receives its dependencies as arguments.
+A class in the application layer orchestrating domain and infrastructure (e.g., LoadCatalog, ViewPiece, RenderScore). Dependencies are injected via constructor; data (Collection, slugs) is passed to `execute()`. Stateless after construction — instantiated once in the `app.js` composition root.
 _Avoid_: Interactor, handler
 
 ## Feature state
