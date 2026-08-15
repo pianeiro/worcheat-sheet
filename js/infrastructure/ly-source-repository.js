@@ -1,4 +1,6 @@
-export class FileLySourceRepository {
+import { LySourceRepository } from '../application/ports/ly-source-repository.js';
+
+export class FileLySourceRepository extends LySourceRepository {
   fetchLy(artistSlug, pieceSlug) {
     var path = 'data/musics/' + artistSlug + '/' + pieceSlug + '.ly';
     return fetch(path).then(function (resp) {

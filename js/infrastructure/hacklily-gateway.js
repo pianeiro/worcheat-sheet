@@ -1,7 +1,9 @@
+import { ScoreRenderer } from '../application/ports/score-renderer.js';
+
 var HACKLILY_URL = 'wss://render.hacklily.org/rpc';
 var RENDER_TIMEOUT_MS = 25000;
 
-export class HacklilyScoreRenderer {
+export class HacklilyScoreRenderer extends ScoreRenderer {
   render(lySource) {
     return new Promise(function (resolve, reject) {
       var ws = new WebSocket(HACKLILY_URL);

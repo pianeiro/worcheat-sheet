@@ -2,19 +2,14 @@ import { errorMessage } from './presentation/formatting.js';
 import { JsonCatalogRepository } from './infrastructure/catalog-repository.js';
 import { FileLySourceRepository } from './infrastructure/ly-source-repository.js';
 import { HacklilyScoreRenderer } from './infrastructure/hacklily-gateway.js';
+import { CatalogRepository } from './application/ports/catalog-repository.js';
+import { LySourceRepository } from './application/ports/ly-source-repository.js';
+import { ScoreRenderer } from './application/ports/score-renderer.js';
 import { LoadCatalog } from './application/load-catalog.js';
 import { ViewArtist } from './application/view-artist.js';
 import { ViewPiece } from './application/view-piece.js';
 import { RenderScore } from './application/render-score.js';
 import { RouteController } from './presentation/route-controller.js';
-
-function assertImplements(adapter, methods) {
-  methods.forEach(function (method) {
-    if (typeof adapter[method] !== 'function') {
-      throw new TypeError('Adapter is missing method "' + method + '"');
-    }
-  });
-}
 
 async function init() {
   try {
@@ -42,9 +37,15 @@ async function init() {
     var catalogRepository = new JsonCatalogRepository();
     var lySourceRepository = new FileLySourceRepository();
     var scoreRenderer = new HacklilyScoreRenderer();
-    assertImplements(catalogRepository, ['load']);
-    assertImplements(lySourceRepository, ['fetchLy']);
-    assertImplements(scoreRenderer, ['render']);
+    if (!(catalogRepository instanceof CatalogRepository)) {
+      throw new TypeError('catalogRepository is not a CatalogRepository');
+    }
+    if (!(lySourceRepository instanceof LySourceRepository)) {
+      throw new TypeError('lySourceRepository is not a LySourceRepository');
+    }
+    if (!(scoreRenderer instanceof ScoreRenderer)) {
+      throw new TypeError('scoreRenderer is not a ScoreRenderer');
+    }
 
     var loadCatalog = new LoadCatalog({ catalogRepository: catalogRepository });
     var viewArtist = new ViewArtist();

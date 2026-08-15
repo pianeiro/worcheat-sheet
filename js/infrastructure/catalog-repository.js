@@ -1,7 +1,8 @@
 import { Artist, Piece, Collection } from '../domain/entities.js';
 import { slugify } from '../domain/value-objects.js';
+import { CatalogRepository } from '../application/ports/catalog-repository.js';
 
-export class JsonCatalogRepository {
+export class JsonCatalogRepository extends CatalogRepository {
   load() {
     return fetch('data/artists.json').then(function (resp) {
       if (!resp.ok) throw new Error('Failed to load catalog (' + resp.status + ')');

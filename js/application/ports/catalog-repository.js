@@ -1,8 +1,19 @@
 /**
  * Port: reads the Catalog index.
- * Implemented by concrete adapters (e.g. JsonCatalogRepository).
- *
- * @typedef {Object} CatalogRepository
- * @property {function(): Promise<import('../../domain/entities.js').Collection>} load
+ * Abstract base class — extended by concrete adapters (e.g. JsonCatalogRepository).
  */
-export {};
+export class CatalogRepository {
+  constructor() {
+    if (new.target === CatalogRepository) {
+      throw new TypeError('CatalogRepository is abstract');
+    }
+  }
+
+  /**
+   * @abstract
+   * @returns {Promise<import('../../domain/entities.js').Collection>}
+   */
+  load() {
+    throw new Error('CatalogRepository.load() not implemented');
+  }
+}
