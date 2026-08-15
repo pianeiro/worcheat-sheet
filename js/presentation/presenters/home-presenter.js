@@ -1,13 +1,15 @@
 import { getYoutubeThumbnailUrl, getYoutubeChannelAvatarUrl } from '../formatting.js';
+import { sampleIndexes as defaultSampleIndexes } from '../random.js';
 
-export function buildHomeViewModel(collection) {
+export function buildHomeViewModel(collection, { pieceCount = 4, artistCount = 4, sampleIndexes: sample = defaultSampleIndexes } = {}) {
   var pieces = collection.artists.length > 0
     ? collection.artists.reduce(function (acc, a) {
         return acc.concat(a.pieces.map(function (p) { return { piece: p, artist: a }; }));
       }, [])
     : [];
 
-  var featured = pieces.length > 0 ? pieces[0] : null;
+  var pieceIndexes = sample(pieceCount + 1, pieces.length);
+  var featured = pieceIndexes.length > 0 ? pieces[pieceIndexes[0]] : null;
 
   return {
     featured: featured
@@ -28,23 +30,25 @@ export function buildHomeViewModel(collection) {
           ctaLabel: 'Browse Artists',
           gradientVia: 'via-primary/10',
         },
-    featuredPieces: pieces.slice(0, 4).map(function (item, i) {
+    featuredPieces: pieceIndexes.slice(1).map(function (i, idx) {
+      var item = pieces[i];
       return {
         title: item.piece.title,
         artist: item.artist.name,
         href: '#/' + item.artist.slug + '/' + item.piece.slug,
         thumbnailUrl: getYoutubeThumbnailUrl(item.piece.youtubeUrl),
-        gradients: i % 2 === 0
+        gradients: idx % 2 === 0
           ? ['from-primary/30', 'via-surface', 'to-ncs-pink/20']
           : ['from-ncs-pink/30', 'via-surface', 'to-primary/20'],
       };
     }),
-    artists: collection.artists.slice(0, 4).map(function (a, i) {
+    artists: sample(artistCount, collection.artists.length).map(function (i, idx) {
+      var a = collection.artists[i];
       return {
         name: a.name,
         genre: 'CC',
         href: '#/' + a.slug,
-        gradients: i % 2 === 0
+        gradients: idx % 2 === 0
           ? ['from-primary/40', 'to-ncs-pink/20']
           : ['from-ncs-pink/40', 'to-primary/20'],
         profileImageUrl: getYoutubeChannelAvatarUrl(a.youtubeChannelUrl),
