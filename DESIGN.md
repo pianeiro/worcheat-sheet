@@ -1,18 +1,20 @@
 ---
 name: Sonic Kinetic
 colors:
-  surface: '#121414'
-  surface-dim: '#121414'
-  surface-bright: '#37393a'
-  surface-container-lowest: '#0c0f0f'
-  surface-container-low: '#1a1c1c'
-  surface-container: '#1e2020'
-  surface-container-high: '#282a2b'
-  surface-container-highest: '#333535'
-  on-surface: '#e2e2e2'
+  surface: '#131313'
+  surface-dim: '#131313'
+  surface-bright: '#3a3939'
+  surface-container-lowest: '#0e0e0e'
+  surface-container-low: '#1c1b1b'
+  surface-container: '#201f1f'
+  surface-container-high: '#2a2a2a'
+  surface-container-highest: '#353534'
+  surface-card: '#121212'
+  surface-glass: 'rgba(25, 29, 36, 0.7)'
+  on-surface: '#e5e2e1'
   on-surface-variant: '#d4c0d7'
-  inverse-surface: '#e2e2e2'
-  inverse-on-surface: '#2f3131'
+  inverse-surface: '#e5e2e1'
+  inverse-on-surface: '#313030'
   outline: '#9d8ba0'
   outline-variant: '#514255'
   surface-tint: '#ecb2ff'
@@ -45,9 +47,11 @@ colors:
   tertiary-fixed-dim: '#ffb961'
   on-tertiary-fixed: '#2b1700'
   on-tertiary-fixed-variant: '#663e00'
-  background: '#121414'
-  on-background: '#e2e2e2'
-  surface-variant: '#333535'
+  background: '#131313'
+  on-background: '#e5e2e1'
+  surface-variant: '#353534'
+  ncs-pink: '#FD80B6'
+  ncs-yellow: '#FFF605'
 typography:
   display-hero:
     fontFamily: Montserrat
@@ -93,11 +97,9 @@ typography:
     fontWeight: '600'
     lineHeight: 20px
 rounded:
-  sm: 0.25rem
-  DEFAULT: 0.5rem
-  md: 0.75rem
-  lg: 1rem
-  xl: 1.5rem
+  DEFAULT: 0.25rem
+  lg: 0.5rem
+  xl: 0.75rem
   full: 9999px
 spacing:
   base: 8px
