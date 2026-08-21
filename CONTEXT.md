@@ -70,7 +70,7 @@ _Avoid_: Controller, model
 Plain data produced by a presenter and consumed by views/components. Maps 1:1 to future React component props.
 
 **Use case**:
-A class in the application layer orchestrating domain and infrastructure (e.g., LoadCatalog, ViewPiece, RenderScore). Dependencies are injected via constructor; data (Collection, slugs) is passed to `execute()`. Stateless after construction — instantiated once in the `app.js` composition root.
+A class in the application layer orchestrating domain and infrastructure (e.g., LoadCatalog, ViewArtist, ViewPiece, RenderScore). Dependencies are injected via constructor; data (Collection, slugs) is passed to `execute()`. Stateless after construction — instantiated once in the `app.js` composition root.
 _Avoid_: Interactor, handler
 
 ## Feature state
