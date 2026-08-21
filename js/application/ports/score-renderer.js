@@ -1,14 +1,27 @@
 /**
  * @typedef {Object} RenderResult
- * @property {string[]} files - One SVG page string per page of the score.
+ * @property {string[]} files - One page string per page of the score.
  * @property {string} logs - LilyPond compilation logs.
  */
 
 /**
- * Port: renders LySource into score SVG pages.
- * Implemented by concrete adapters (e.g. HacklilyScoreRenderer).
- *
- * @typedef {Object} ScoreRenderer
- * @property {function(string): Promise<RenderResult>} render
+ * Port: renders LySource into score pages (SVG or PDF).
+ * Abstract base class — extended by concrete adapters (e.g. HacklilyScoreRenderer).
  */
-export {};
+export class ScoreRenderer {
+  constructor() {
+    if (new.target === ScoreRenderer) {
+      throw new TypeError('ScoreRenderer is abstract');
+    }
+  }
+
+  /**
+   * @abstract
+   * @param {string} lySource
+   * @param {'svg'|'pdf'} [backend='svg']
+   * @returns {Promise<RenderResult>}
+   */
+  render(lySource, backend) {
+    throw new Error('ScoreRenderer.render() not implemented');
+  }
+}

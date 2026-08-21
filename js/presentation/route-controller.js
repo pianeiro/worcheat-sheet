@@ -5,6 +5,7 @@ import { buildArtistsIndexViewModel } from './presenters/artists-index-presenter
 import { buildArtistViewModel } from './presenters/artist-presenter.js';
 import { buildPieceViewModel } from './presenters/piece-presenter.js';
 import { createScorePresenter } from './presenters/score-presenter.js';
+import { createToast } from './components.js';
 
 export function parseHash() {
   var hash = window.location.hash.replace(/^#/, '');
@@ -94,6 +95,7 @@ export class RouteController {
       }
       this.mainContent.innerHTML = buildPieceView(buildPieceViewModel(data));
       this.wireScoreCta(route);
+      this.wireDownloadCta(route);
     }
   }
 
@@ -109,6 +111,49 @@ export class RouteController {
       if (!statusEl || !contentEl) return;
       var scorePresenter = createScorePresenter(statusEl, contentEl);
       scorePresenter.renderWith(self.renderScore.execute(route.artistSlug, route.pieceSlug));
+    });
+  }
+
+  wireDownloadCta(route) {
+    var cta = document.getElementById('piece-download-pdf');
+    if (!cta) return;
+    var self = this;
+    cta.addEventListener('click', function (e) {
+      e.preventDefault();
+      cta.classList.add('pointer-events-none', 'opacity-50');
+      var originalContent = cta.innerHTML;
+      cta.innerHTML = '<span class="material-symbols-outlined text-base animate-pulse">hourglass_empty</span>Downloading...';
+      var toast = createToast('Compiling PDF...', 'info');
+
+      self.renderScore.execute(route.artistSlug, route.pieceSlug, 'pdf').then(function (result) {
+        if (!result.files || result.files.length === 0 || !result.files[0]) {
+          throw new Error('No PDF data returned');
+        }
+        var base64 = result.files[0];
+        var binary = atob(base64);
+        var bytes = new Uint8Array(binary.length);
+        for (var i = 0; i < binary.length; i++) {
+          bytes[i] = binary.charCodeAt(i);
+        }
+        var blob = new Blob([bytes], { type: 'application/pdf' });
+        var url = URL.createObjectURL(blob);
+        var a = document.createElement('a');
+        a.href = url;
+        a.download = route.pieceSlug + '.pdf';
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+        URL.revokeObjectURL(url);
+
+        toast.dismiss();
+        createToast('PDF downloaded', 'success');
+        cta.innerHTML = '<span class="material-symbols-outlined text-base">check</span>Downloaded';
+      }).catch(function (err) {
+        toast.dismiss();
+        createToast('Failed to download PDF: ' + err.message, 'error');
+        cta.classList.remove('pointer-events-none', 'opacity-50');
+        cta.innerHTML = originalContent;
+      });
     });
   }
 }

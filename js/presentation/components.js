@@ -14,17 +14,26 @@ export function HeroSection(props) {
   var ctaId = props.ctaId || '';
   var heroHeight = props.heroHeight || 'h-[300px] md:h-[400px]';
   var bgImage = props.bgImage || '';
+  var secondCtaId = props.secondCtaId || '';
+  var secondCtaLabel = props.secondCtaLabel || '';
+  var secondCtaIcon = props.secondCtaIcon || '';
 
   var ctaHtml = '';
   if (!hideCta) {
-    ctaHtml = [
-      '<div class="flex items-center gap-4">',
-      '<a href="' + ctaHref + '"' + (ctaId ? ' id="' + ctaId + '"' : '') + ' class="inline-flex items-center gap-2 bg-primary-container hover:bg-primary text-on-primary-container rounded-full px-6 py-3 md:px-8 md:py-4 font-track-title text-track-title transition-all shadow-[0_0_20px_rgba(189,0,255,0.3)] hover:shadow-[0_0_30px_rgba(189,0,255,0.5)] hover:-translate-y-1">',
-      '<span class="material-symbols-outlined" style="font-variation-settings: \'FILL\' 1;">' + ctaIcon + '</span>',
-      ctaLabel,
-      '</a>',
-      '</div>',
-    ].join('\n');
+    var primaryCta = '<a href="' + ctaHref + '"' + (ctaId ? ' id="' + ctaId + '"' : '') + ' class="inline-flex items-center gap-2 bg-primary-container hover:bg-primary text-on-primary-container rounded-full px-6 py-3 md:px-8 md:py-4 font-track-title text-track-title transition-all shadow-[0_0_20px_rgba(189,0,255,0.3)] hover:shadow-[0_0_30px_rgba(189,0,255,0.5)] hover:-translate-y-1">' +
+      '<span class="material-symbols-outlined" style="font-variation-settings: \'FILL\' 1;">' + ctaIcon + '</span>' +
+      ctaLabel +
+      '</a>';
+
+    var secondaryCta = '';
+    if (secondCtaLabel) {
+      secondaryCta = '<a href="#"' + (secondCtaId ? ' id="' + secondCtaId + '"' : '') + ' class="inline-flex items-center gap-2 bg-surface-container hover:bg-surface-container-high text-on-surface rounded-full px-6 py-3 md:px-8 md:py-4 font-track-title text-track-title transition-all border border-white/10 hover:border-primary/50 hover:-translate-y-1">' +
+        '<span class="material-symbols-outlined">' + secondCtaIcon + '</span>' +
+        secondCtaLabel +
+        '</a>';
+    }
+
+    ctaHtml = '<div class="flex items-center gap-4">' + primaryCta + secondaryCta + '</div>';
   } else if (extraContent) {
     ctaHtml = '<div class="flex items-center gap-4">' + extraContent + '</div>';
   }
@@ -134,4 +143,45 @@ export function ScoreFrame() {
     '<div id="score-content" class="hidden"></div>',
     '</div>',
   ].join('\n');
+}
+
+export function createToast(message, type) {
+  type = type || 'info';
+  var container = document.getElementById('toast-container');
+  if (!container) {
+    container = document.createElement('div');
+    container.id = 'toast-container';
+    container.className = 'fixed top-4 right-4 z-50 flex flex-col gap-3';
+    document.body.appendChild(container);
+  }
+
+  var bgClass = type === 'error' ? 'bg-red-500/90' : type === 'success' ? 'bg-green-500/90' : 'bg-surface-container-high/90';
+  var icon = type === 'error' ? 'error' : type === 'success' ? 'check_circle' : 'info';
+
+  var toast = document.createElement('div');
+  toast.className = 'flex items-center gap-3 px-4 py-3 rounded-xl border border-white/10 shadow-lg backdrop-blur-sm ' + bgClass + ' text-on-surface animate-[slideIn_0.3s_ease-out]';
+  toast.innerHTML =
+    '<span class="material-symbols-outlined text-base">' + icon + '</span>' +
+    '<span class="text-sm font-semibold flex-1">' + message + '</span>' +
+    '<button class="material-symbols-outlined text-base opacity-60 hover:opacity-100 transition-opacity cursor-pointer">close</button>';
+
+  toast.querySelector('button').addEventListener('click', function () {
+    dismiss();
+  });
+
+  container.appendChild(toast);
+
+  var timer = setTimeout(dismiss, 4000);
+
+  function dismiss() {
+    clearTimeout(timer);
+    toast.style.opacity = '0';
+    toast.style.transform = 'translateX(100%)';
+    toast.style.transition = 'opacity 0.3s, transform 0.3s';
+    setTimeout(function () {
+      if (toast.parentNode) toast.parentNode.removeChild(toast);
+    }, 300);
+  }
+
+  return { dismiss: dismiss };
 }

@@ -15,13 +15,14 @@ export class RenderScore {
   /**
    * @param {string} artistSlug
    * @param {string} pieceSlug
+   * @param {'svg'|'pdf'} [backend='svg']
    * @returns {Promise<import('./ports/score-renderer.js').RenderResult>}
    */
-  execute(artistSlug, pieceSlug) {
+  execute(artistSlug, pieceSlug, backend) {
     var repository = this.lySourceRepository;
     var renderer = this.scoreRenderer;
     return repository.fetchLy(artistSlug, pieceSlug).then(function (lySource) {
-      return renderer.render(lySource);
+      return renderer.render(lySource, backend);
     });
   }
 }

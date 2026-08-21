@@ -1,8 +1,11 @@
+import { ScoreRenderer } from '../application/ports/score-renderer.js';
+
 var HACKLILY_URL = 'wss://render.hacklily.org/rpc';
 var RENDER_TIMEOUT_MS = 25000;
 
-export class HacklilyScoreRenderer {
-  render(lySource) {
+export class HacklilyScoreRenderer extends ScoreRenderer {
+  render(lySource, backend) {
+    var resolvedBackend = backend || 'svg';
     return new Promise(function (resolve, reject) {
       var ws = new WebSocket(HACKLILY_URL);
       var id = 'rpc_' + Date.now() + '_' + Math.random().toString(36).slice(2, 8);
@@ -13,7 +16,7 @@ export class HacklilyScoreRenderer {
           jsonrpc: '2.0',
           method: 'render',
           params: {
-            backend: 'svg',
+            backend: resolvedBackend,
             src: lySource,
             version: 'stable',
           },
