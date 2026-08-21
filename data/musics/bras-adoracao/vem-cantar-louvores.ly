@@ -61,8 +61,8 @@ melody = \relative c'' {
 
   \md %C
   \repeat volta 2 {
-    \improvisationOn b4\staccato r2 b4\improvisationOff 
-    \empty \improvisationOn \hide Stem b'4 4 4 \undo \hide Stem 4\improvisationOff 
+    \improvisationOn b'4\staccato r2 b4\improvisationOff 
+    \empty \improvisationOn \hide Stem b4 4 4 \undo \hide Stem 4\improvisationOff 
     \empty\empty 
   } \alternative {
     \volta 1 {\empty \empty \improvisationOn \hide Stem b4 4 \undo \hide Stem 4 4\improvisationOff}
