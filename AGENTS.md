@@ -60,3 +60,4 @@ See `DESIGN.md` for the color palette, typography scale, spacing, and shape syst
 - All work on `develop`. Merge to `main` at plan end.
 - Commit messages: Conventional Commits (`feat`, `fix`, `refactor`, `docs`, `env`). Optional scope in parens.
 - Implement one logical change at a time; get user approval before each commit.
+- ADRs in `docs/adr/` document architectural decisions (ports-as-abstract-classes, clean-architecture layers).
