@@ -131,7 +131,7 @@ melody = \relative c'' {
 harmony = \chordmode {
   % Intro
   r2
-  \repeat volta 2 {c:9 c8~2 c4./g g8~2 d4.:sus4 d8~2}
+  \repeat volta 2 {c4.:9 c8~2 c4./g g8~2 d4.:sus4 d8~2}
   \alternative {
     \volta 1 {c1} 
     \volta 2 {c2 c4/e d g1}
