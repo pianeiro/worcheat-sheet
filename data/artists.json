@@ -143,5 +143,17 @@
         "youtubeUrl": "https://youtu.be/RV3ZGs073Gc"
       }
     ]
+  },
+  {
+    "slug": "eyshila",
+    "name": "Eyshila",
+    "youtubeChannelUrl": "https://youtube.com/@EyshilaOficial",
+    "pieces": [
+      {
+        "slug": "nada-pode-calar-um-adorador",
+        "title": "Nada pode calar um adorador",
+        "youtubeUrl": "https://youtu.be/rDhJTDVZ1cI"
+      }
+    ]
   }
 ]
