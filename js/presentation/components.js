@@ -17,6 +17,7 @@ export function HeroSection(props) {
   var secondCtaId = props.secondCtaId || '';
   var secondCtaLabel = props.secondCtaLabel || '';
   var secondCtaIcon = props.secondCtaIcon || '';
+  var fullWidth = props.fullWidth || false;
 
   var ctaHtml = '';
   if (!hideCta) {
@@ -40,8 +41,12 @@ export function HeroSection(props) {
 
   var subtitleHtml = subtitle ? '<p class="font-headline-md text-xl md:text-2xl text-primary mb-6 font-bold">' + subtitle + '</p>' : '';
 
+  var wrapperClass = fullWidth
+    ? 'px-margin-mobile md:px-margin-desktop pt-8 pb-4 w-full'
+    : 'px-margin-mobile md:px-margin-desktop pt-8 pb-4 max-w-[1600px] mx-auto w-full';
+
   return [
-    '<div class="px-margin-mobile md:px-margin-desktop pt-8 pb-4 max-w-[1600px] mx-auto w-full">',
+    '<div class="' + wrapperClass + '">',
     '<section class="relative w-full ' + heroHeight + ' flex flex-col justify-end flex-shrink-0 rounded-2xl overflow-hidden shadow-2xl border border-white/10">',
     '<div class="absolute inset-0 overflow-hidden rounded-2xl">',
     bgImage ? '<img class="absolute inset-0 w-full h-full object-cover" src="' + bgImage + '" alt="">' : '',
@@ -141,6 +146,27 @@ export function ScoreFrame() {
     '<p class="text-on-surface-variant text-body-md">Click <span class="text-primary font-bold">View Score</span> above to render.</p>',
     '</div>',
     '<div id="score-content" class="hidden"></div>',
+    '</div>',
+  ].join('\n');
+}
+
+export function AboutAuthorCard(props) {
+  var name = props.name || '';
+  var description = props.description || '';
+  var avatarUrl = props.avatarUrl || '';
+  var githubUrl = props.githubUrl || '#';
+
+  return [
+    '<div class="bg-surface-container rounded-2xl p-6 md:p-8 border border-white/5 shadow-lg flex flex-col md:flex-row items-center md:items-start gap-6 md:gap-8">',
+    '<div class="w-24 h-24 md:w-32 md:h-32 rounded-full bg-gradient-to-br from-primary/40 to-ncs-pink/20 shrink-0 overflow-hidden border-2 border-primary/30">' + (avatarUrl ? '<img class="w-full h-full object-cover" src="' + avatarUrl + '" alt="">' : '') + '</div>',
+    '<div class="flex-1 text-center md:text-left">',
+    '<h3 class="font-headline-md text-headline-md font-bold text-on-surface mb-2">' + name + '</h3>',
+    '<p class="text-on-surface-variant text-body-md mb-4">' + description + '</p>',
+    '<a href="' + githubUrl + '" target="_blank" rel="noopener" class="inline-flex items-center gap-2 text-primary hover:text-on-primary-container transition-colors text-sm font-semibold">',
+    '<span class="material-symbols-outlined text-base">code</span>',
+    'GitHub',
+    '</a>',
+    '</div>',
     '</div>',
   ].join('\n');
 }
