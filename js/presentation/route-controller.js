@@ -1,5 +1,5 @@
 import { errorMessage } from './formatting.js';
-import { buildHomeView, buildArtistsIndexView, buildArtistView, buildPieceView } from './views.js';
+import { buildHomeView, buildArtistsIndexView, buildArtistView, buildPieceView, buildAboutView } from './views.js';
 import { buildHomeViewModel } from './presenters/home-presenter.js';
 import { buildArtistsIndexViewModel } from './presenters/artists-index-presenter.js';
 import { buildArtistViewModel } from './presenters/artist-presenter.js';
@@ -8,7 +8,7 @@ import { createScorePresenter } from './presenters/score-presenter.js';
 import { createToast } from './components.js';
 
 export function parseHash() {
-  var hash = window.location.hash.replace(/^#/, '');
+  var hash = window.location.hash.replace(/^#/, '').split('#')[0];
   var parts = hash.split('/').filter(Boolean);
   if (parts.length === 0) return { view: 'home', artistSlug: null, pieceSlug: null };
   if (parts.length === 1) return { view: 'artist', artistSlug: parts[0], pieceSlug: null };
@@ -44,6 +44,7 @@ export function updateNavActiveState(route) {
   setActive(sidebarLinks, function (el) {
     var href = el.getAttribute('href');
     if (route.view === 'home') return href === '#/';
+    if (route.view === 'artist' && route.artistSlug === 'about') return href === '#/about';
     if (route.view === 'artist' || route.view === 'piece') return href === '#/artists';
     return false;
   });
@@ -64,6 +65,24 @@ export function updateNavActiveState(route) {
   });
 }
 
+function scrollToSection() {
+  var rawHash = window.location.hash;
+  var section = rawHash.split('/about#')[1] || '';
+  if (section) {
+    var el = document.getElementById(section);
+    if (el) {
+      requestAnimationFrame(function () {
+        var header = document.querySelector('header');
+        var headerHeight = header ? header.offsetHeight + 16 : 80;
+        var main = document.querySelector('main');
+        var mainTop = main.getBoundingClientRect().top;
+        var elTop = el.getBoundingClientRect().top;
+        main.scrollTo({ top: main.scrollTop + elTop - mainTop - headerHeight, behavior: 'smooth' });
+      });
+    }
+  }
+}
+
 export class RouteController {
   constructor({ collection, viewArtist, viewPiece, renderScore, mainContent }) {
     this.collection = collection;
@@ -82,6 +101,9 @@ export class RouteController {
       this.mainContent.innerHTML = buildHomeView(buildHomeViewModel(this.collection));
     } else if (route.view === 'artist' && route.artistSlug === 'artists') {
       this.mainContent.innerHTML = buildArtistsIndexView(buildArtistsIndexViewModel(this.collection));
+    } else if (route.view === 'artist' && route.artistSlug === 'about') {
+      this.mainContent.innerHTML = buildAboutView();
+      scrollToSection();
     } else if (route.view === 'artist') {
       var artist = this.viewArtist.execute(this.collection, route.artistSlug);
       this.mainContent.innerHTML = artist

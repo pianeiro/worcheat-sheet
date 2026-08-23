@@ -1,4 +1,4 @@
-import { HeroSection, PieceCard, ArtistCard, PieceRow, ScoreFrame } from './components.js';
+import { HeroSection, PieceCard, ArtistCard, PieceRow, ScoreFrame, AboutAuthorCard } from './components.js';
 
 export function buildHomeView(vm) {
   var hero = vm.featured;
@@ -194,5 +194,47 @@ export function buildPieceView(vm) {
     '</div></div>',
     '<div class="h-24 lg:hidden"></div>',
     '</div>',
+  ].join('\n');
+}
+
+export function buildAboutView() {
+  var authorCard = AboutAuthorCard({
+    name: 'Jeferson Quadros',
+    description: 'Economist, data scientist, and professor of data science and full-stack web development who sees math and statistics in everything\u2014even in music.',
+    avatarUrl: 'https://unavatar.io/github/pianeiro',
+    githubUrl: 'https://github.com/pianeiro',
+  });
+
+  return [
+    '<div class="px-margin-mobile md:px-margin-desktop pt-stack-lg pb-stack-md w-full">',
+    '<h1 class="font-headline-lg text-4xl md:text-6xl font-black text-on-surface mb-2">About the WorCheat</h1>',
+    '</div>',
+    '<p class="text-on-surface-variant text-body-lg max-w-[1600px] mx-auto w-full px-margin-mobile md:px-margin-desktop mb-stack-md">WorCheat Sheet (a play on words involving \u201Cworship\u201D and \u201Ccheat sheet\u201D) is a personal, non-profit project that gathers my gospel music transcriptions used in gigs. The goal is to make access easier and help other musicians with similar needs, serving as a public library in a streaming format.</p>',
+    '<p class="text-on-surface-variant text-body-md max-w-[1600px] mx-auto w-full px-margin-mobile md:px-margin-desktop mb-stack-md">This project has no monetization or intention of misuse. If you represent copyright holders and identify any content you consider harmful or improper, please contact us by sending a formal request containing: (1) Your identification and the identification of the affected party (if applicable); and (2) An exact description of the alleged violation and its grounds. The flagged content will be removed promptly upon receipt of the notification.</p>',
+    '<div class="flex flex-col gap-stack-md px-margin-mobile md:px-margin-desktop pb-stack-lg max-w-[1600px] mx-auto w-full">',
+    '<div id="author">',
+    authorCard,
+    '</div>',
+    '<div class="h-24 lg:hidden"></div>',
+    '</div>',
+    '<div id="technologies" class="px-margin-mobile md:px-margin-desktop pb-stack-lg max-w-[1600px] mx-auto w-full">',
+    '<h2 class="font-headline-lg text-headline-lg font-bold text-on-surface mb-4">Technologies</h2>',
+    '<p class="text-on-surface-variant text-body-md mb-6 max-w-3xl">WorCheat Sheet relies on two core technologies to render sheet music in the browser.</p>',
+    '<ul class="flex flex-col gap-4 max-w-3xl">',
+    '<li id="lilypond" class="flex flex-col gap-1">',
+    '<span class="font-headline-md text-headline-md font-bold text-primary">LilyPond</span>',
+    '<span class="text-on-surface-variant text-body-md">A music engraving program that compiles text-based source files into high-quality sheet music. Pieces in WorCheat Sheet are written as LilyPond <code class="text-primary bg-primary/10 px-1.5 py-0.5 rounded text-sm">.ly</code> files.</span>',
+    '</li>',
+    '<li id="hacklily" class="flex flex-col gap-1">',
+    '<span class="font-headline-md text-headline-md font-bold text-secondary">Hacklily</span>',
+    '<span class="text-on-surface-variant text-body-md">A web-based LilyPond renderer that compiles <code class="text-primary bg-primary/10 px-1.5 py-0.5 rounded text-sm">.ly</code> source into SVG via a WebSocket connection. WorCheat Sheet uses Hacklily to render scores on demand when the user clicks View Score.</span>',
+    '</li>',
+    '</ul>',
+    '</div>',
+    '<div id="contributing" class="px-margin-mobile md:px-margin-desktop pb-stack-lg max-w-[1600px] mx-auto w-full">',
+    '<h2 class="font-headline-lg text-headline-lg font-bold text-on-surface mb-4">Contributing</h2>',
+    '<p class="text-on-surface-variant text-body-md max-w-3xl">Contributions are welcome. If you\'d like to add a piece, improve the interface, or report an issue, visit the <a href="https://github.com/pianeiro/worcheat-sheet" target="_blank" rel="noopener" class="text-primary hover:text-on-primary-container transition-colors underline">GitHub repository</a> to get started.</p>',
+    '</div>',
+    '<div class="h-24 lg:hidden"></div>',
   ].join('\n');
 }
