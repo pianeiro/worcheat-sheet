@@ -1,10 +1,11 @@
 import { errorMessage } from './formatting.js';
-import { buildHomeView, buildArtistsIndexView, buildArtistView, buildPieceView, buildAboutView } from './views.js';
+import { buildHomeView, buildArtistsIndexView, buildArtistView, buildPieceView, buildAboutView, buildPlayView } from './views.js';
 import { buildHomeViewModel } from './presenters/home-presenter.js';
 import { buildArtistsIndexViewModel } from './presenters/artists-index-presenter.js';
 import { buildArtistViewModel } from './presenters/artist-presenter.js';
 import { buildPieceViewModel } from './presenters/piece-presenter.js';
 import { createScorePresenter } from './presenters/score-presenter.js';
+import { createPlayPresenter } from './presenters/play-presenter.js';
 import { createToast } from './components.js';
 
 export function parseHash() {
@@ -12,6 +13,7 @@ export function parseHash() {
   var parts = hash.split('/').filter(Boolean);
   if (parts.length === 0) return { view: 'home', artistSlug: null, pieceSlug: null };
   if (parts.length === 1) return { view: 'artist', artistSlug: parts[0], pieceSlug: null };
+  if (parts.length === 3 && parts[2] === 'play') return { view: 'play', artistSlug: parts[0], pieceSlug: parts[1] };
   return { view: 'piece', artistSlug: parts[0], pieceSlug: parts[1] };
 }
 
@@ -93,6 +95,10 @@ export class RouteController {
   }
 
   handleRoute() {
+    if (this.playPresenter) {
+      this.playPresenter.destroy();
+      this.playPresenter = null;
+    }
     document.querySelector('main').scrollTo(0, 0);
     var route = parseHash();
     updateNavActiveState(route);
@@ -109,6 +115,17 @@ export class RouteController {
       this.mainContent.innerHTML = artist
         ? buildArtistView(buildArtistViewModel(artist))
         : errorMessage('Artist not found.');
+    } else if (route.view === 'play') {
+      var playData = this.viewPiece.execute(this.collection, route.artistSlug, route.pieceSlug);
+      if (!playData) {
+        this.mainContent.innerHTML = errorMessage('Piece not found.');
+        return;
+      }
+      this.mainContent.innerHTML = buildPlayView(buildPieceViewModel(playData));
+      this.playPresenter = createPlayPresenter(
+        this.mainContent, this.renderScore, route.artistSlug, route.pieceSlug
+      );
+      this.playPresenter.init();
     } else if (route.view === 'piece') {
       var data = this.viewPiece.execute(this.collection, route.artistSlug, route.pieceSlug);
       if (!data) {

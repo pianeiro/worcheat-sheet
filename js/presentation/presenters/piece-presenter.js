@@ -8,6 +8,7 @@ export function buildPieceViewModel(data) {
     title: piece.title,
     artistName: artist.name,
     artistSlug: artist.slug,
+    pieceSlug: piece.slug,
     bgImage: getYoutubeThumbnailUrl(piece.youtubeUrl),
     watchYoutubeUrl: piece.youtubeUrl,
     otherPieces: data.otherPieces.map(function (p, i) {
