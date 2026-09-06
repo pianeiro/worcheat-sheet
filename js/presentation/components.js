@@ -17,6 +17,10 @@ export function HeroSection(props) {
   var secondCtaId = props.secondCtaId || '';
   var secondCtaLabel = props.secondCtaLabel || '';
   var secondCtaIcon = props.secondCtaIcon || '';
+  var thirdCtaId = props.thirdCtaId || '';
+  var thirdCtaLabel = props.thirdCtaLabel || '';
+  var thirdCtaIcon = props.thirdCtaIcon || '';
+  var thirdCtaHref = props.thirdCtaHref || '#';
   var fullWidth = props.fullWidth || false;
 
   var ctaHtml = '';
@@ -34,7 +38,15 @@ export function HeroSection(props) {
         '</a>';
     }
 
-    ctaHtml = '<div class="flex items-center gap-4">' + primaryCta + secondaryCta + '</div>';
+    var tertiaryCta = '';
+    if (thirdCtaLabel) {
+      tertiaryCta = '<a href="' + thirdCtaHref + '"' + (thirdCtaId ? ' id="' + thirdCtaId + '"' : '') + ' class="inline-flex items-center gap-2 bg-surface-container hover:bg-surface-container-high text-on-surface rounded-full px-6 py-3 md:px-8 md:py-4 font-track-title text-track-title transition-all border border-white/10 hover:border-primary/50 hover:-translate-y-1">' +
+        '<span class="material-symbols-outlined">' + thirdCtaIcon + '</span>' +
+        thirdCtaLabel +
+        '</a>';
+    }
+
+    ctaHtml = '<div class="flex items-center gap-4">' + primaryCta + secondaryCta + tertiaryCta + '</div>';
   } else if (extraContent) {
     ctaHtml = '<div class="flex items-center gap-4">' + extraContent + '</div>';
   }
@@ -167,6 +179,30 @@ export function AboutAuthorCard(props) {
     'GitHub',
     '</a>',
     '</div>',
+    '</div>',
+  ].join('\n');
+}
+
+export function PlayControlBar(props) {
+  var exitHref = props.exitHref || '#';
+
+  return [
+    '<div id="play-control-bar" class="fixed bottom-6 left-1/2 -translate-x-1/2 z-50 bg-surface-glass backdrop-blur-xl border border-white/10 rounded-full flex items-center gap-1 px-2 py-2 shadow-2xl transition-opacity duration-300">',
+    '<a href="' + exitHref + '" id="play-exit" class="flex items-center gap-1.5 px-3 py-2 rounded-full text-on-surface-variant hover:text-primary hover:bg-white/5 transition-all text-sm font-semibold shrink-0">',
+    '<span class="font-track-title text-xs hidden sm:inline">WorCheat Sheet</span>',
+    '<span class="font-track-title text-xs sm:hidden">WCS</span>',
+    '</a>',
+    '<div class="w-px h-5 bg-white/10 shrink-0"></div>',
+    '<button id="play-prev" class="w-9 h-9 flex items-center justify-center rounded-full text-on-surface-variant hover:text-primary hover:bg-white/5 transition-all disabled:opacity-20 disabled:pointer-events-none" disabled>',
+    '<span class="material-symbols-outlined text-xl">chevron_left</span>',
+    '</button>',
+    '<button id="play-next" class="w-9 h-9 flex items-center justify-center rounded-full text-on-surface-variant hover:text-primary hover:bg-white/5 transition-all disabled:opacity-20 disabled:pointer-events-none" disabled>',
+    '<span class="material-symbols-outlined text-xl">chevron_right</span>',
+    '</button>',
+    '<div class="w-px h-5 bg-white/10 shrink-0"></div>',
+    '<a href="' + exitHref + '" class="w-9 h-9 flex items-center justify-center rounded-full text-on-surface-variant hover:text-primary hover:bg-white/5 transition-all shrink-0">',
+    '<span class="material-symbols-outlined text-xl">close</span>',
+    '</a>',
     '</div>',
   ].join('\n');
 }

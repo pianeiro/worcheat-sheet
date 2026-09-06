@@ -1,4 +1,4 @@
-import { HeroSection, PieceCard, ArtistCard, PieceRow, ScoreFrame, AboutAuthorCard } from './components.js';
+import { HeroSection, PieceCard, ArtistCard, PieceRow, ScoreFrame, AboutAuthorCard, PlayControlBar } from './components.js';
 
 export function buildHomeView(vm) {
   var hero = vm.featured;
@@ -161,6 +161,9 @@ export function buildPieceView(vm) {
       secondCtaId: 'piece-download-pdf',
       secondCtaLabel: 'Download PDF',
       secondCtaIcon: 'download',
+      thirdCtaHref: '#/' + vm.artistSlug + '/' + vm.pieceSlug + '/play',
+      thirdCtaLabel: 'Play',
+      thirdCtaIcon: 'music_note',
       gradientFrom: 'from-surface-container-lowest',
       gradientVia: 'via-primary/20',
       gradientTo: 'to-ncs-pink/10',
@@ -236,5 +239,24 @@ export function buildAboutView() {
     '<p class="text-on-surface-variant text-body-md max-w-3xl">Contributions are welcome. If you\'d like to add a piece, improve the interface, or report an issue, visit the <a href="https://github.com/pianeiro/worcheat-sheet" target="_blank" rel="noopener" class="text-primary hover:text-on-primary-container transition-colors underline">GitHub repository</a> to get started.</p>',
     '</div>',
     '<div class="h-24 lg:hidden"></div>',
+  ].join('\n');
+}
+
+export function buildPlayView(vm) {
+  var controlBar = PlayControlBar({
+    exitHref: '#/' + vm.artistSlug + '/' + vm.pieceSlug,
+  });
+
+  return [
+    '<div id="play-view" class="fixed inset-0 z-40 bg-background flex flex-col">',
+    '<div id="play-score-area" class="flex-1 relative">',
+    '<div id="play-score-status" class="absolute inset-0 flex items-center justify-center">',
+    '<div class="w-9 h-9 border-4 border-outline-variant border-t-primary rounded-full animate-spin mx-auto mb-4"></div>',
+    '<p class="text-on-surface-variant text-body-md">Compiling score...</p>',
+    '</div>',
+    '<div id="play-track" class="absolute inset-0 hidden"></div>',
+    '</div>',
+    controlBar,
+    '</div>',
   ].join('\n');
 }
