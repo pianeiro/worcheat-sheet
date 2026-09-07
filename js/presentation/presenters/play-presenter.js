@@ -25,10 +25,10 @@ export function createPlayPresenter(containerEl, renderScore, artistSlug, pieceS
     var footer = document.querySelector('footer');
     var bottomNav = document.querySelector('nav.bg-surface-glass');
     var main = document.querySelector('main');
-    if (aside) aside.classList.add('hidden');
-    if (header) header.classList.add('hidden');
-    if (footer) footer.classList.add('hidden');
-    if (bottomNav) bottomNav.classList.add('hidden');
+    if (aside) aside.style.display = 'none';
+    if (header) header.style.display = 'none';
+    if (footer) footer.style.display = 'none';
+    if (bottomNav) bottomNav.style.display = 'none';
     if (main) {
       main.style.overflow = 'hidden';
       main.style.flex = '1';
@@ -41,10 +41,10 @@ export function createPlayPresenter(containerEl, renderScore, artistSlug, pieceS
     var footer = document.querySelector('footer');
     var bottomNav = document.querySelector('nav.bg-surface-glass');
     var main = document.querySelector('main');
-    if (aside) aside.classList.remove('hidden');
-    if (header) header.classList.remove('hidden');
-    if (footer) footer.classList.remove('hidden');
-    if (bottomNav) bottomNav.classList.remove('hidden');
+    if (aside) aside.style.display = '';
+    if (header) header.style.display = '';
+    if (footer) footer.style.display = '';
+    if (bottomNav) bottomNav.style.display = '';
     if (main) {
       main.style.overflow = '';
       main.style.flex = '';
