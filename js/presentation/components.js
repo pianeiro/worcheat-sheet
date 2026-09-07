@@ -25,28 +25,28 @@ export function HeroSection(props) {
 
   var ctaHtml = '';
   if (!hideCta) {
-    var primaryCta = '<a href="' + ctaHref + '"' + (ctaId ? ' id="' + ctaId + '"' : '') + ' class="inline-flex items-center gap-2 bg-primary-container hover:bg-primary text-on-primary-container rounded-full px-6 py-3 md:px-8 md:py-4 font-track-title text-track-title transition-all shadow-[0_0_20px_rgba(189,0,255,0.3)] hover:shadow-[0_0_30px_rgba(189,0,255,0.5)] hover:-translate-y-1">' +
+    var primaryCta = '<a href="' + ctaHref + '"' + (ctaId ? ' id="' + ctaId + '"' : '') + ' class="inline-flex items-center gap-2 bg-primary-container hover:bg-primary text-on-primary-container rounded-full px-3 py-2 sm:px-6 sm:py-3 md:px-8 md:py-4 font-track-title text-track-title transition-all shadow-[0_0_20px_rgba(189,0,255,0.3)] hover:shadow-[0_0_30px_rgba(189,0,255,0.5)] hover:-translate-y-1">' +
       '<span class="material-symbols-outlined" style="font-variation-settings: \'FILL\' 1;">' + ctaIcon + '</span>' +
-      ctaLabel +
+      '<span class="hidden sm:inline">' + ctaLabel + '</span>' +
       '</a>';
 
     var secondaryCta = '';
     if (secondCtaLabel) {
-      secondaryCta = '<a href="#"' + (secondCtaId ? ' id="' + secondCtaId + '"' : '') + ' class="inline-flex items-center gap-2 bg-surface-container hover:bg-surface-container-high text-on-surface rounded-full px-6 py-3 md:px-8 md:py-4 font-track-title text-track-title transition-all border border-white/10 hover:border-primary/50 hover:-translate-y-1">' +
+      secondaryCta = '<a href="#"' + (secondCtaId ? ' id="' + secondCtaId + '"' : '') + ' class="inline-flex items-center gap-2 bg-surface-container hover:bg-surface-container-high text-on-surface rounded-full px-3 py-2 sm:px-6 sm:py-3 md:px-8 md:py-4 font-track-title text-track-title transition-all border border-white/10 hover:border-primary/50 hover:-translate-y-1">' +
         '<span class="material-symbols-outlined">' + secondCtaIcon + '</span>' +
-        secondCtaLabel +
+        '<span class="hidden sm:inline">' + secondCtaLabel + '</span>' +
         '</a>';
     }
 
     var tertiaryCta = '';
     if (thirdCtaLabel) {
-      tertiaryCta = '<a href="' + thirdCtaHref + '"' + (thirdCtaId ? ' id="' + thirdCtaId + '"' : '') + ' class="inline-flex items-center gap-2 bg-surface-container hover:bg-surface-container-high text-on-surface rounded-full px-6 py-3 md:px-8 md:py-4 font-track-title text-track-title transition-all border border-white/10 hover:border-primary/50 hover:-translate-y-1">' +
+      tertiaryCta = '<a href="' + thirdCtaHref + '"' + (thirdCtaId ? ' id="' + thirdCtaId + '"' : '') + ' class="inline-flex items-center gap-2 bg-surface-container hover:bg-surface-container-high text-on-surface rounded-full px-3 py-2 sm:px-6 sm:py-3 md:px-8 md:py-4 font-track-title text-track-title transition-all border border-white/10 hover:border-primary/50 hover:-translate-y-1">' +
         '<span class="material-symbols-outlined">' + thirdCtaIcon + '</span>' +
-        thirdCtaLabel +
+        '<span class="hidden sm:inline">' + thirdCtaLabel + '</span>' +
         '</a>';
     }
 
-    ctaHtml = '<div class="flex items-center gap-4">' + primaryCta + secondaryCta + tertiaryCta + '</div>';
+    ctaHtml = '<div class="flex flex-wrap items-center gap-3 sm:gap-4">' + primaryCta + secondaryCta + tertiaryCta + '</div>';
   } else if (extraContent) {
     ctaHtml = '<div class="flex items-center gap-4">' + extraContent + '</div>';
   }
