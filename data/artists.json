@@ -155,5 +155,17 @@
         "youtubeUrl": "https://youtu.be/rDhJTDVZ1cI"
       }
     ]
+  },
+  {
+    "slug": "ministerio-apascentar-de-nova-iguacu",
+    "name": "Min. Apascentar de Nova Iguaçu",
+    "youtubeChannelUrl": "https://www.youtube.com/@apascentar",
+    "pieces": [
+      {
+        "slug": "aleluia-hosana",
+        "title": "Aleluia Hosana",
+        "youtubeUrl": "https://youtu.be/3GtFSFcQ4FU"
+      }
+    ]
   }
 ]
