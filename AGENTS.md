@@ -19,6 +19,8 @@ for f in $(find js -name '*.js'); do node --input-type=module --check < "$f" || 
 | `#/artists` | Artists index |
 | `#/:slug` | Artist detail — piece list |
 | `#/:slug/:pieceSlug` | Piece detail — score + credits + more pieces + similar artists |
+| `#/:slug/:pieceSlug/play` | Play — full-screen score reading (hides shell, keyboard/swipe nav) |
+| `#/about` | About — author, technologies, contributing |
 
 ## Adding a score
 
