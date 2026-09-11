@@ -157,7 +157,7 @@
     ]
   },
   {
-    "slug": "ministerio-apascentar-de-nova-iguacu",
+    "slug": "min-apascentar",
     "name": "Min. Apascentar de Nova Iguaçu",
     "youtubeChannelUrl": "https://www.youtube.com/@apascentar",
     "pieces": [
@@ -165,6 +165,18 @@
         "slug": "aleluia-hosana",
         "title": "Aleluia Hosana",
         "youtubeUrl": "https://youtu.be/3GtFSFcQ4FU"
+      }
+    ]
+  },
+  {
+    "slug": "bianca-azevedo",
+    "name": "Bianca Azevedo",
+    "youtubeChannelUrl": "https://www.youtube.com/@BiancaAzevedoOficial",
+    "pieces": [
+      {
+        "slug": "jesus",
+        "title": "Jesus",
+        "youtubeUrl": "https://youtu.be/fn2RLP6Tpfc"
       }
     ]
   }
