@@ -179,5 +179,17 @@
         "youtubeUrl": "https://youtu.be/fn2RLP6Tpfc"
       }
     ]
+  },
+  {
+    "slug": "som-do-ceu",
+    "name": "Som do Céu",
+    "youtubeChannelUrl": "https://www.youtube.com/@somdoceu_",
+    "pieces": [
+      {
+        "slug": "na-terra-como-no-ceu-que-se-abram-os-ceus",
+        "title": "Na terra como no céu / Que se abram os céus",
+        "youtubeUrl": "https://youtu.be/uGf26zMHLNw"
+      }
+    ]
   }
 ]
