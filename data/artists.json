@@ -192,4 +192,17 @@
       }
     ]
   }
+  ,
+  {
+    "slug": "marcio-santana",
+    "name": "Marcio Santana",
+    "youtubeChannelUrl": "https://www.youtube.com/@MarcioSantana",
+    "pieces": [
+      {
+        "slug": "doce-presenca",
+        "title": "Doce presença",
+        "youtubeUrl": "https://youtu.be/ArApzuYZ33Q"
+      }
+    ]
+  }
 ]
