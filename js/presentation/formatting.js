@@ -6,7 +6,7 @@ export function escapeHtml(str) {
 
 export function getYoutubeChannelAvatarUrl(channelUrl) {
   if (!channelUrl) return null;
-  var m = channelUrl.match(/(?:youtube\.com|youtu\.be)\/(?:channel\/)?([\w@-]+)/);
+  var m = channelUrl.match(/(?:youtube\.com|youtu\.be)\/(?:channel\/)?([\w@.-]+)/);
   return m ? 'https://unavatar.io/youtube/' + m[1] : null;
 }
 
