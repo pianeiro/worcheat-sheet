@@ -191,8 +191,7 @@
         "youtubeUrl": "https://youtu.be/uGf26zMHLNw"
       }
     ]
-  }
-  ,
+  },
   {
     "slug": "marcio-santana",
     "name": "Marcio Santana",
@@ -202,6 +201,18 @@
         "slug": "doce-presenca",
         "title": "Doce presença",
         "youtubeUrl": "https://youtu.be/ArApzuYZ33Q"
+      }
+    ]
+  },
+  {
+    "slug": "debora-reis",
+    "name": "Débora Reis",
+    "youtubeChannelUrl": "https://www.youtube.com/@MarcioSantana",
+    "pieces": [
+      {
+        "slug": "vem-com-o-peso-da-tua-gloria",
+        "title": "Doce presença",
+        "youtubeUrl": "https://youtu.be/@deborareis.oficial"
       }
     ]
   }
