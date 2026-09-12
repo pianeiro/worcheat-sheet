@@ -4,7 +4,7 @@ var HACKLILY_URL = 'wss://render.hacklily.org/rpc';
 var RENDER_TIMEOUT_MS = 25000;
 
 export class HacklilyScoreRenderer extends ScoreRenderer {
-  render(lySource, backend) {
+  render(lySource, backend, slug) {
     var resolvedBackend = backend || 'svg';
     return new Promise(function (resolve, reject) {
       var ws = new WebSocket(HACKLILY_URL);
