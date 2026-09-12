@@ -21,8 +21,9 @@ export class RenderScore {
   execute(artistSlug, pieceSlug, backend) {
     var repository = this.lySourceRepository;
     var renderer = this.scoreRenderer;
+    var slug = artistSlug + '/' + pieceSlug;
     return repository.fetchLy(artistSlug, pieceSlug).then(function (lySource) {
-      return renderer.render(lySource, backend);
+      return renderer.render(lySource, backend, slug);
     });
   }
 }

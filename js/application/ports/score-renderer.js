@@ -19,9 +19,10 @@ export class ScoreRenderer {
    * @abstract
    * @param {string} lySource
    * @param {'svg'|'pdf'} [backend='svg']
+   * @param {string} [slug]
    * @returns {Promise<RenderResult>}
    */
-  render(lySource, backend) {
+  render(lySource, backend, slug) {
     throw new Error('ScoreRenderer.render() not implemented');
   }
 }

@@ -2,6 +2,7 @@ import { errorMessage } from './presentation/formatting.js';
 import { JsonCatalogRepository } from './infrastructure/catalog-repository.js';
 import { FileLySourceRepository } from './infrastructure/ly-source-repository.js';
 import { HacklilyScoreRenderer } from './infrastructure/hacklily-gateway.js';
+import { CachingScoreRenderer } from './infrastructure/caching-score-renderer.js';
 import { CatalogRepository } from './application/ports/catalog-repository.js';
 import { LySourceRepository } from './application/ports/ly-source-repository.js';
 import { ScoreRenderer } from './application/ports/score-renderer.js';
@@ -36,7 +37,7 @@ async function init() {
 
     var catalogRepository = new JsonCatalogRepository();
     var lySourceRepository = new FileLySourceRepository();
-    var scoreRenderer = new HacklilyScoreRenderer();
+    var scoreRenderer = new CachingScoreRenderer(new HacklilyScoreRenderer());
     if (!(catalogRepository instanceof CatalogRepository)) {
       throw new TypeError('catalogRepository is not a CatalogRepository');
     }
