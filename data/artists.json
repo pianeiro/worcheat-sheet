@@ -215,5 +215,17 @@
         "youtubeUrl": "https://youtu.be/10vlGwga20c"
       }
     ]
+  },
+  {
+    "slug": "paulo-rogerio",
+    "name": "Paulo Rogério",
+    "youtubeChannelUrl": "https://www.youtube.com/@OficialPauloRogério",
+    "pieces": [
+      {
+        "slug": "nuvem-de-gloria",
+        "title": "Nuvem de Glória",
+        "youtubeUrl": "https://youtu.be/CPY_ZmpS86c"
+      }
+    ]
   }
 ]
