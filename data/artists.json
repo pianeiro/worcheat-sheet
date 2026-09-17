@@ -227,5 +227,17 @@
         "youtubeUrl": "https://youtu.be/CPY_ZmpS86c"
       }
     ]
+  },
+  {
+    "slug": "nivea-soares",
+    "name": "Nívea Soares",
+    "youtubeChannelUrl": "https://www.youtube.com/@NiveaSoaresOfficial",
+    "pieces": [
+      {
+        "slug": "quem-e-como-nosso-deus",
+        "title": "Quem é como nosso Deus?",
+        "youtubeUrl": "https://youtu.be/QRilv78Rroc"
+      }
+    ]
   }
 ]
