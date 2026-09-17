@@ -239,5 +239,17 @@
         "youtubeUrl": "https://youtu.be/QRilv78Rroc"
       }
     ]
+  },
+  {
+    "slug": "julliany-souza",
+    "name": "Julliany Souza",
+    "youtubeChannelUrl": "https://www.youtube.com/@JullianySouza",
+    "pieces": [
+      {
+        "slug": "quem-e-esse",
+        "title": "Quem é esse?",
+        "youtubeUrl": "https://youtu.be/0ZF5em0MTwY"
+      }
+    ]
   }
 ]
