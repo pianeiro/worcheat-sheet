@@ -256,5 +256,17 @@
         "youtubeUrl": "https://youtu.be/0ZF5em0MTwY"
       }
     ]
+  },
+  {
+    "slug": "one-service",
+    "name": "One Service",
+    "youtubeChannelUrl": "https://www.youtube.com/@OneService",
+    "pieces": [
+      {
+        "slug": "yahweh",
+        "title": "Yahweh",
+        "youtubeUrl": "https://youtu.be/U1Oi-IWV43Q"
+      }
+    ]
   }
 ]
