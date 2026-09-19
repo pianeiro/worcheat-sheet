@@ -268,5 +268,17 @@
         "youtubeUrl": "https://youtu.be/U1Oi-IWV43Q"
       }
     ]
+  },
+  {
+    "slug": "nations-diante-do-trono",
+    "name": "Nations Diante do Trono",
+    "youtubeChannelUrl": "https://www.youtube.com/@@nationsdiantedotrono535",
+    "pieces": [
+      {
+        "slug": "toda-terra",
+        "title": "Toda terra",
+        "youtubeUrl": "https://youtu.be/7RK8P0r9wEo"
+      }
+    ]
   }
 ]
