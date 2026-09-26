@@ -280,5 +280,17 @@
         "youtubeUrl": "https://youtu.be/7RK8P0r9wEo"
       }
     ]
+  },
+  {
+    "slug": "misc",
+    "name": "Miscelaneous",
+    "youtubeChannelUrl": "",
+    "pieces": [
+      {
+        "slug": "medley-eu-vou-africa-videira",
+        "title": "Medley: Eu vou (Africa) / Videira",
+        "youtubeUrl": ""
+      }
+    ]
   }
 ]
